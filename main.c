@@ -3,7 +3,7 @@
 
 static int	ft_matcharg(char *str, int *arg)
 {
-	if (*str && *str == '-')
+	if (*(++str) && *str == '-')
 		return (0);
 	while (*str)
 	{

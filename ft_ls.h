@@ -3,6 +3,10 @@
 
 #include <sys/stat.h>
 #include <dirent.h>
+#include <errno.h>
+#include <string.h>
+#include <pwd.h>
+#include <time.h>
 
 # define MIN_A 1
 # define MIN_L (1 < 1)
@@ -18,6 +22,7 @@ typedef struct		s_dirent
 {
 	struct dirent   *data;
 	struct s_dirent	*next;
+	struct stat		stat;
 }					t_dirent;
 
 int			ft_ls(char **av, int ac, int arg, int i);
