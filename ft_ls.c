@@ -15,18 +15,25 @@ static void		ft_print(t_dirent *lst, int arg)
 
 static void		ft_recurlist(t_dirent *lst, int arg, char *name, int *end)
 {
-	char	*tmp;
 	char	*the_name;
 
 	while (lst)
 	{
-		if (lst->data->d_type == DT_DIR)
+		if (S_ISDIR(lst->stat.st_mode))
 		{
-			tmp = ft_strjoin(name, "/");
-			the_name = ft_strjoin(tmp, lst->data->d_name);
-			free(tmp);
-			ft_lstdir(the_name, arg, NULL, end);
-			free(the_name);
+			if (!(the_name = ft_strslashjoin(name, lst->data->d_name)))
+			{
+				perror("ft_ls : error ");
+				*end |= 1;
+			}
+			else
+			{
+				ft_putchar('\n');
+				ft_putstr(the_name);
+				ft_putstr(":\n");
+				ft_lstdir(the_name, arg, NULL, end);
+				free(the_name);
+			}
 		}
 		lst = lst->next;
 	}
@@ -42,11 +49,6 @@ static void		ft_runlist(t_dirent **lst, int arg, char *name, int *end)
 		ft_sortlst(lst, arg);
 	if (MIN_R & arg)
 		ft_revlst(lst);
-	if (MAG_R & arg)
-	{
-		ft_putstr(name);
-		ft_putstr(":\n");
-	}
 	ft_print(*lst, arg);
 	if (MAG_R & arg)
 		ft_recurlist(*lst, arg, name, end);

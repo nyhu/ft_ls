@@ -73,7 +73,11 @@ static t_dirent	*ft_create_direntelem(struct dirent *new, char *name)
 	tmp = ft_strjoin(name, "/");
 	the_name = ft_strjoin(tmp, new->d_name);
 	free(tmp);
-	stat(the_name, &(next->stat));
+	if (stat(the_name, &(next->stat)) < 0)
+	{
+		free(next);
+		return (NULL);
+	}
 	free(the_name);
 	next->next = NULL;
 	return (next);
