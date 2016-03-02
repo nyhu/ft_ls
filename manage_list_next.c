@@ -7,7 +7,7 @@ void	ft_swaplist(t_dirent **begin, t_dirent *stick, t_dirent *turtle)
 
 	if (turtle != stick)
 	{
-		if (*begin = stick)
+		if (*begin == stick)
 			*begin = turtle;
 		else
 		{
@@ -44,13 +44,15 @@ static void	ft_printtime(t_dirent *lst)
 	char	*tmp;
 	int		i;
 
-	tmp = ctime(time(lst->st_mtime));
-	i = ft_strlen(tmp);
-	tmp[i] = '\0';
-	ft_putstr(tmp);
+	if ((tmp = ctime(&(lst->stat.st_mtime))))
+	{
+		i = ft_strlen(tmp);
+		tmp[i - 1] = '\0';
+		ft_putstr(tmp);
+	}
 }
 
-void		ft_printl(t_dirent *lst, int arg)
+void		ft_printl(t_dirent *lst)
 {
 	ft_putstr("total ?\n");
 	while (lst)
@@ -62,7 +64,7 @@ void		ft_printl(t_dirent *lst, int arg)
 		ft_putchar(' ');
 		ft_putstr((getpwuid((lst->stat).st_uid))->pw_name);
 		ft_putchar(' ');
-		ft_putstr((getgrgid((lst->stat).st_gid))->pw_name);
+		ft_putstr((getgrgid((lst->stat).st_gid))->gr_name);
 		ft_putchar(' ');
 		ft_putnbr(lst->data->d_reclen);
 		ft_putchar(' ');
@@ -73,7 +75,7 @@ void		ft_printl(t_dirent *lst, int arg)
 	}
 }
 
-int			ft_cmpls(t_dirent *turtle, t_dirent *rabbit, int arg, char *name)
+int			ft_cmpls(t_dirent *turtle, t_dirent *rabbit, int arg)
 {
 	if (MIN_T & arg)
 		return ((turtle->stat).st_mtime - (rabbit->stat).st_mtime);

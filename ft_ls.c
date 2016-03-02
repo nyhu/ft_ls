@@ -4,7 +4,7 @@
 static void		ft_print(t_dirent *lst, int arg)
 {
 	if (MIN_L & arg)
-		ft_printl(lst, arg);
+		ft_printl(lst);
 	else
 		while (lst)
 		{
@@ -15,15 +15,15 @@ static void		ft_print(t_dirent *lst, int arg)
 
 static void		ft_recurlist(t_dirent *lst, int arg, char *name, int *end)
 {
-	char	tmp;
+	char	*tmp;
 	char	*the_name;
 
 	while (lst)
 	{
-		if ((lst->data).d_type == DT_DIR)
+		if (lst->data->d_type == DT_DIR)
 		{
 			tmp = ft_strjoin(name, "/");
-			the_name = ft_strjoin(tmp, (lst->data).d_name);
+			the_name = ft_strjoin(tmp, lst->data->d_name);
 			free(tmp);
 			ft_lstdir(the_name, arg, NULL, end);
 			free(the_name);
@@ -35,7 +35,7 @@ static void		ft_recurlist(t_dirent *lst, int arg, char *name, int *end)
 static void		ft_runlist(t_dirent *lst, int arg, char *name, int *end)
 {
 	if (MIN_T & arg)
-		ft_sortlst(&lst, arg, name);
+		ft_sortlst(&lst, arg);
 	if (MIN_R & arg)
 		ft_revlst(&lst);
 	if (MAG_R & arg)
@@ -48,17 +48,18 @@ static void		ft_runlist(t_dirent *lst, int arg, char *name, int *end)
 		ft_recurlist(lst, arg, name, end);
 }
 
-static void		ft_lstdir(char *name, int arg, t_dirent *lst, int *end)
+void			ft_lstdir(char *name, int arg, t_dirent *lst, int *end)
 {
-	DIR			dir;
+	DIR			*dir;
 
-	if ((dir = opendir(name)) < 0)
+	dir = NULL;
+	if (!(dir = opendir(name)))
 	{
-		ft_putstr_fd("ft_ls : ");
-		ft_putstr_fd(name);
-		ft_putstr_fd(" : ");
+		perror("ft_ls : ");
+		perror(name);
+		perror(" : ");
 		perror(strerror(errno));
-		*end |= -dir;
+		*end |= 1;
 	}
 	else
 	{

@@ -25,7 +25,7 @@ void			ft_revlst(t_dirent **begin)
 	}
 }
 
-void			ft_sortlst(t_dirent **begin, int arg, char *name)
+void			ft_sortlst(t_dirent **begin, int arg)
 {
 	t_dirent		*stick;
 	t_dirent		*rabbit;
@@ -40,11 +40,11 @@ void			ft_sortlst(t_dirent **begin, int arg, char *name)
 			rabbit = turtle->next;
 			while (rabbit)
 			{
-				if (ft_cmpls(turtle, rabbit, arg, name) < 0)
+				if (ft_cmpls(turtle, rabbit, arg) < 0)
 					turtle = rabbit;
 			}
 			if (turtle != stick)
-				ft_swaplst(begin, stick, turtle);
+				ft_swaplist(begin, stick, turtle);
 			stick = stick->next;
 		}
 	}
@@ -62,11 +62,11 @@ void			ft_free_dirent_lst(t_dirent *lst)
 	}
 }
 
-static t_dirent	*ft_create_direntelem(struct dirent new, char *name)
+static t_dirent	*ft_create_direntelem(struct dirent *new, char *name)
 {
-	t_dirent		next;
+	t_dirent		*next;
 	char			*tmp;
-	char			*the_name
+	char			*the_name;
 
 	if (!(next = (t_dirent *)malloc(sizeof(t_dirent))))
 		return (NULL);
@@ -74,13 +74,13 @@ static t_dirent	*ft_create_direntelem(struct dirent new, char *name)
 	tmp = ft_strjoin(name, "/");
 	the_name = ft_strjoin(tmp, new->d_name);
 	free(tmp);
-	stat(the_name, &(new.stat));
+	stat(the_name, &(next->stat));
 	free(the_name);
 	next->next = NULL;
 	return (next);
 }
 
-int				ft_create_direntlist(t_dirent **begin, DIR dir, char *name)
+int				ft_create_direntlist(t_dirent **begin, DIR *dir, char *name)
 {
 	struct dirent	*new;
 	t_dirent		*rabbit;

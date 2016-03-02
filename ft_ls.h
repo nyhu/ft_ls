@@ -1,12 +1,15 @@
 #ifndef FT_LS_H
 # define FT_LS_H
 
+#include <grp.h>
 #include <sys/stat.h>
+#include <sys/types.h>
 #include <dirent.h>
 #include <errno.h>
 #include <string.h>
 #include <pwd.h>
 #include <time.h>
+#include <stdio.h>
 
 # define MIN_A 1
 # define MIN_L (1 < 1)
@@ -25,13 +28,14 @@ typedef struct		s_dirent
 	struct stat		stat;
 }					t_dirent;
 
-void		ft_printl(t_dirent *lst, int arg);
-int			ft_cmpls(t_dirent *turtle, t_dirent *rabbit, int arg, char *name);
+void		ft_printl(t_dirent *lst);
+int			ft_cmpls(t_dirent *turtle, t_dirent *rabbit, int arg);
 void		ft_swaplist(t_dirent **begin, t_dirent *stick, t_dirent *turtle);
-int			ft_create_direntlist(t_dirent **begin, DIR dir, char *name);
+int			ft_create_direntlist(t_dirent **begin, DIR *dir, char *name);
 void		ft_free_dirent_lst(t_dirent *lst);
-void		ft_sortlst(t_dirent **begin, int arg, char *name);
+void		ft_sortlst(t_dirent **begin, int arg);
 void		ft_revlst(t_dirent **begin);
+void		ft_lstdir(char *name, int arg, t_dirent *lst, int *end);
 int			ft_ls(char **av, int ac, int arg, int i);
 
 #endif
