@@ -55,11 +55,11 @@ void		ft_printl(t_dirent *lst)
 		ft_putchar(lst->data->d_type);
 		ft_printperm(lst);
 		ft_putchar(' ');
-		ft_putnbr((lst->stat).st_nlink);
+		ft_putnbr(lst->stat.st_nlink);
 		ft_putchar(' ');
-		ft_putstr((getpwuid((lst->stat).st_uid))->pw_name);
+		ft_putstr((getpwuid(lst->stat.st_uid))->pw_name);
 		ft_putchar(' ');
-		ft_putstr((getgrgid((lst->stat).st_gid))->gr_name);
+		ft_putstr((getgrgid(lst->stat.st_gid))->gr_name);
 		ft_putchar(' ');
 		ft_putnbr(lst->data->d_reclen);
 		ft_putchar(' ');
@@ -70,9 +70,13 @@ void		ft_printl(t_dirent *lst)
 	}
 }
 
-int			ft_cmpls(t_dirent *turtle, t_dirent *rabbit, int arg)
+long		ft_cmpls(t_dirent *turtle, t_dirent *rabbit, int arg)
 {
+	if ((MIN_C & arg))
+		return (RABBIT_TIME_A - TURTLE_TIME_A);
+	if ((MIN_U & arg))
+		return (RABBIT_TIME_C - TURTLE_TIME_C);
 	if ((MIN_T & arg))
-		return ((rabbit->stat).st_mtime - (turtle->stat).st_mtime);
+		return (RABBIT_TIME_M - TURTLE_TIME_M);
 	return (ft_strcmp(turtle->data->d_name, rabbit->data->d_name));
 }

@@ -12,15 +12,22 @@
 #include <stdio.h>
 
 # define MIN_A 1
+# define MAG_A 1024
 # define MIN_L 2
 # define MAG_R 4
 # define MIN_R 8
 # define MIN_T 16
 # define MIN_U 32
+# define MIN_C 512
 # define MIN_F 64
 # define MIN_G 128
 # define MIN_D 256
-# define MAG_U 512
+# define RABBIT_TIME_C rabbit->stat.st_atimespec.tv_sec
+# define TURTLE_TIME_C turtle->stat.st_atimespec.tv_sec
+# define RABBIT_TIME_M rabbit->stat.st_mtimespec.tv_sec
+# define TURTLE_TIME_M turtle->stat.st_mtimespec.tv_sec
+# define RABBIT_TIME_A rabbit->stat.st_atimespec.tv_sec
+# define TURTLE_TIME_A turtle->stat.st_atimespec.tv_sec
 
 typedef struct		s_dirent
 {
@@ -31,9 +38,9 @@ typedef struct		s_dirent
 
 t_dirent	*ft_listshunt(t_dirent *lst, int arg);
 void		ft_printperm(t_dirent *lst);
-void		ft_deldot(t_dirent **lst);
+void		ft_deldot(t_dirent **lst, int mode);
 void		ft_printl(t_dirent *lst);
-int			ft_cmpls(t_dirent *turtle, t_dirent *rabbit, int arg);
+long		ft_cmpls(t_dirent *turtle, t_dirent *rabbit, int arg);
 void		ft_swaplist(t_dirent *rabbit, t_dirent *turtle);
 int			ft_create_direntlist(t_dirent **begin, DIR *dir, char *name);
 void		ft_free_dirent_lst(t_dirent *lst);

@@ -34,9 +34,11 @@ static void		ft_recurlist(t_dirent *lst, int arg, char *name, int *end)
 
 static void		ft_runlist(t_dirent **lst, int arg, char *name, int *end)
 {
-	if (!(MIN_A & arg))
-		ft_deldot(lst);
-	if ((!(MAG_U & arg) || (MIN_T & arg)) && *lst && (*lst)->next)
+	if (!(MIN_A & arg) && !(MAG_A & arg))
+		ft_deldot(lst, 0);
+	else if (MAG_A & arg)
+		ft_deldot(lst, 1);
+	if (*lst && (*lst)->next)
 		ft_sortlst(lst, arg);
 	if (MIN_R & arg)
 		ft_revlst(lst);

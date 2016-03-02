@@ -1,26 +1,51 @@
 #include "libft.h"
 #include "ft_ls.h"
 
+static void	ft_timesort(char c, int *arg)
+{
+		if (c == 'c')
+		{
+			*arg += MIN_C;
+			if (*arg & MIN_T)
+				*arg -= MIN_T;
+			else if (*arg & MIN_U)
+				*arg -= MIN_U;
+		}
+		if (c == 't')
+		{
+			*arg += MIN_T;
+			if (*arg & MIN_C)
+				*arg -= MIN_C;
+			else if (*arg & MIN_U)
+				*arg -= MIN_U;
+		}
+		if (c == 'u')
+		{
+			*arg += MIN_U;
+			if (*arg & MIN_T)
+				*arg -= MIN_T;
+			else if (*arg & MIN_C)
+				*arg -= MIN_C;
+		}
+}
+
 static int	ft_matcharg(char *str, int *arg)
 {
 	if (*(++str) && *str == '-')
 		return (0);
 	while (*str)
 	{
+		ft_timesort(*str, arg);
 		if (*str == 'a')
 			*arg += MIN_A;
+		if (*str == 'A')
+			*arg += MAG_A;
 		if (*str == 'l')
 			*arg += MIN_L;
 		if (*str == 'R')
 			*arg += MAG_R;
 		if (*str == 'r')
 			*arg += MIN_R;
-		if (*str == 't')
-			*arg += MIN_T;
-		if (*str == 'U')
-			*arg += MAG_U;
-		if (*str == 'u')
-			*arg += MIN_U;
 		if (*str == 'f')
 			*arg += MIN_F;
 		if (*str == 'g')
