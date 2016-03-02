@@ -29,26 +29,24 @@ void			ft_sortlst(t_dirent **begin, int arg)
 {
 	t_dirent		*stick;
 	t_dirent		*rabbit;
-	t_dirent		*turtle;
 
-	if (begin && *begin && (*begin)->next)
+	*begin = ft_listshunt(*begin, arg);
+	stick = *begin;
+	while (stick->next != *begin)
 	{
-		stick = *begin;
-		while (stick)
+		rabbit = stick->next;
+		while (rabbit->next != *begin)
 		{
-			turtle = stick;
-			rabbit = turtle->next;
-			while (rabbit)
+			if (ft_cmpls(rabbit->next, stick->next, arg) < 0)
 			{
-				if (ft_cmpls(turtle, rabbit, arg) < 0)
-					turtle = rabbit;
-				rabbit = rabbit->next;
+				ft_swaplist(stick, rabbit);
+				rabbit = stick->next;
 			}
-			if (turtle != stick)
-				ft_swaplist(begin, stick, turtle);
-			stick = stick->next;
+			rabbit = rabbit->next;
 		}
+		stick = stick->next;
 	}
+	stick->next = NULL;
 }
 
 void			ft_free_dirent_lst(t_dirent *lst)

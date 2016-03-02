@@ -1,42 +1,37 @@
 # include "libft.h"
 # include "ft_ls.h"
 
-void	ft_swaplist(t_dirent **begin, t_dirent *stick, t_dirent *turtle)
+void	ft_swaplist(t_dirent *rabbit, t_dirent *turtle)
 {
-	t_dirent	*rabbit;
+	t_dirent	*memo;
 
-	if (turtle != stick)
-	{
-		if (*begin == stick)
-			*begin = turtle;
-		else
-		{
-			rabbit = *begin;
-			while (rabbit->next != stick)
-				rabbit = rabbit->next;
-			rabbit->next = turtle;
-		}
-		rabbit = stick;
-		while (rabbit->next != turtle)
-			rabbit = rabbit->next;
-		rabbit->next = stick;
-		rabbit = turtle->next;
-		turtle->next = stick->next;
-		stick->next = rabbit;
-	}
+	memo = rabbit->next;
+	rabbit->next = turtle->next;
+	turtle->next = memo;
+	memo = rabbit->next->next;
+	rabbit->next->next = turtle->next->next;
+	turtle->next->next = memo;
 }
 
-static void	ft_printperm(t_dirent *lst)
+t_dirent	*ft_listshunt(t_dirent *begin, int arg)
 {
-	((lst->stat).st_mode & S_IRUSR ? ft_putchar('r') : ft_putchar('-'));
-	((lst->stat).st_mode & S_IWUSR ? ft_putchar('w') : ft_putchar('-'));
-	((lst->stat).st_mode & S_IXUSR ? ft_putchar('x') : ft_putchar('-'));
-	((lst->stat).st_mode & S_IRGRP ? ft_putchar('r') : ft_putchar('-'));
-	((lst->stat).st_mode & S_IWGRP ? ft_putchar('w') : ft_putchar('-'));
-	((lst->stat).st_mode & S_IXGRP ? ft_putchar('x') : ft_putchar('-'));
-	((lst->stat).st_mode & S_IROTH ? ft_putchar('r') : ft_putchar('-'));
-	((lst->stat).st_mode & S_IWOTH ? ft_putchar('w') : ft_putchar('-'));
-	((lst->stat).st_mode & S_IXOTH ? ft_putchar('x') : ft_putchar('-'));
+	t_dirent	*stick;
+
+	stick = begin;
+	while (stick->next)
+		stick = stick->next;
+	stick->next = begin;
+	stick = begin->next;
+	while (stick != begin)
+	{
+		if (ft_cmpls(stick, begin, arg) < 0)
+		{
+			begin = stick;
+			stick = begin;
+		}
+		stick = stick->next;
+	}
+	return (begin);
 }
 
 static void	ft_printtime(t_dirent *lst)
@@ -77,7 +72,7 @@ void		ft_printl(t_dirent *lst)
 
 int			ft_cmpls(t_dirent *turtle, t_dirent *rabbit, int arg)
 {
-	if (MIN_T & arg)
-		return ((turtle->stat).st_mtime - (rabbit->stat).st_mtime);
-	return (ft_strcmp(rabbit->data->d_name, turtle->data->d_name));
+	if ((MIN_T & arg))
+		return ((rabbit->stat).st_mtime - (turtle->stat).st_mtime);
+	return (ft_strcmp(turtle->data->d_name, rabbit->data->d_name));
 }
