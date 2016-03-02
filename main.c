@@ -17,6 +17,8 @@ static int	ft_matcharg(char *str, int *arg)
 			*arg += MIN_R;
 		if (*str == 't')
 			*arg += MIN_T;
+		if (*str == 'U')
+			*arg += MAG_U;
 		if (*str == 'u')
 			*arg += MIN_U;
 		if (*str == 'f')

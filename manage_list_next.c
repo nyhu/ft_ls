@@ -70,7 +70,7 @@ void		ft_printl(t_dirent *lst)
 		ft_putchar(' ');
 		ft_printtime(lst);
 		ft_putchar(' ');
-		ft_putstr(lst->data->d_name);
+		ft_putendl(lst->data->d_name);
 		lst = lst->next;
 	}
 }
@@ -79,5 +79,5 @@ int			ft_cmpls(t_dirent *turtle, t_dirent *rabbit, int arg)
 {
 	if (MIN_T & arg)
 		return ((turtle->stat).st_mtime - (rabbit->stat).st_mtime);
-	return (0);
+	return (ft_strcmp(rabbit->data->d_name, turtle->data->d_name));
 }

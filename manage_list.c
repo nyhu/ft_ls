@@ -42,6 +42,7 @@ void			ft_sortlst(t_dirent **begin, int arg)
 			{
 				if (ft_cmpls(turtle, rabbit, arg) < 0)
 					turtle = rabbit;
+				rabbit = rabbit->next;
 			}
 			if (turtle != stick)
 				ft_swaplist(begin, stick, turtle);

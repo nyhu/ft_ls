@@ -32,20 +32,22 @@ static void		ft_recurlist(t_dirent *lst, int arg, char *name, int *end)
 	}
 }
 
-static void		ft_runlist(t_dirent *lst, int arg, char *name, int *end)
+static void		ft_runlist(t_dirent **lst, int arg, char *name, int *end)
 {
-	if (MIN_T & arg)
-		ft_sortlst(&lst, arg);
+	if (!(MIN_A & arg))
+		ft_deldot(lst);
+	if (!(MAG_U & arg) || (MIN_T & arg))
+		ft_sortlst(lst, arg);
 	if (MIN_R & arg)
-		ft_revlst(&lst);
+		ft_revlst(lst);
 	if (MAG_R & arg)
 	{
 		ft_putstr(name);
 		ft_putstr(":\n");
 	}
-	ft_print(lst, arg);
+	ft_print(*lst, arg);
 	if (MAG_R & arg)
-		ft_recurlist(lst, arg, name, end);
+		ft_recurlist(*lst, arg, name, end);
 }
 
 void			ft_lstdir(char *name, int arg, t_dirent *lst, int *end)
@@ -64,7 +66,7 @@ void			ft_lstdir(char *name, int arg, t_dirent *lst, int *end)
 	else
 	{
 		*end |= ft_create_direntlist(&lst, dir, name);
-		ft_runlist(lst, arg, name, end);
+		ft_runlist(&lst, arg, name, end);
 		ft_free_dirent_lst(lst);
 		closedir(dir);
 	}

@@ -12,14 +12,15 @@
 #include <stdio.h>
 
 # define MIN_A 1
-# define MIN_L (1 < 1)
-# define MAG_R (1 < 2)
-# define MIN_R (1 < 3)
-# define MIN_T (1 < 4)
-# define MIN_U (1 < 5)
-# define MIN_F (1 < 6)
-# define MIN_G (1 < 7)
-# define MIN_D (1 < 8)
+# define MIN_L 2
+# define MAG_R 4
+# define MIN_R 8
+# define MIN_T 16
+# define MIN_U 32
+# define MIN_F 64
+# define MIN_G 128
+# define MIN_D 256
+# define MAG_U 512
 
 typedef struct		s_dirent
 {
@@ -28,6 +29,7 @@ typedef struct		s_dirent
 	struct stat		stat;
 }					t_dirent;
 
+void		ft_deldot(t_dirent **lst);
 void		ft_printl(t_dirent *lst);
 int			ft_cmpls(t_dirent *turtle, t_dirent *rabbit, int arg);
 void		ft_swaplist(t_dirent **begin, t_dirent *stick, t_dirent *turtle);
