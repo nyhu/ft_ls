@@ -11,7 +11,7 @@
 # ************************************************************************** #
 NAME = ft_ls
 FLAGS = -Wall -Wextra -Werror
-S =
+S = main.c manage_list.c manage_list_next.c ft_ls.c
 
 all: $(NAME)
 
