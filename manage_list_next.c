@@ -26,7 +26,7 @@ void	ft_swaplist(t_dirent **begin, t_dirent *stick, t_dirent *turtle)
 	}
 }
 
-void	ft_printperm(t_dirent *lst)
+static void	ft_printperm(t_dirent *lst)
 {
 	((lst->stat).st_mode & S_IRUSR ? ft_putchar('r') : ft_putchar('-'));
 	((lst->stat).st_mode & S_IWUSR ? ft_putchar('w') : ft_putchar('-'));
@@ -39,7 +39,7 @@ void	ft_printperm(t_dirent *lst)
 	((lst->stat).st_mode & S_IXOTH ? ft_putchar('x') : ft_putchar('-'));
 }
 
-void	ft_printtime(t_dirent *lst)
+static void	ft_printtime(t_dirent *lst)
 {
 	char	*tmp;
 	int		i;
@@ -50,7 +50,7 @@ void	ft_printtime(t_dirent *lst)
 	ft_putstr(tmp);
 }
 
-void	ft_printl(t_dirent *lst, int arg)
+void		ft_printl(t_dirent *lst, int arg)
 {
 	ft_putstr("total ?\n");
 	while (lst)
@@ -73,7 +73,7 @@ void	ft_printl(t_dirent *lst, int arg)
 	}
 }
 
-int		ft_cmpls(t_dirent *turtle, t_dirent *rabbit, int arg, char *name)
+int			ft_cmpls(t_dirent *turtle, t_dirent *rabbit, int arg, char *name)
 {
 	if (MIN_T & arg)
 		return ((turtle->stat).st_mtime - (rabbit->stat).st_mtime);

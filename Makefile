@@ -11,7 +11,7 @@
 # ************************************************************************** #
 NAME = ft_ls
 FLAGS = -Wall -Wextra -Werror
-S = main.c manage_list.c manage_list_next.c ft_ls.c
+SRC = main.c manage_list.c manage_list_next.c ft_ls.c
 
 all: $(NAME)
 
@@ -19,7 +19,7 @@ lib:
 	cd libft ; make ; cp libft.a ../.
 
 $(NAME): lib
-	gcc $(FLAGS) $(SRC) -I includes libft.a -o $(NAME)
+	gcc $(FLAGS) $(SRC) -I libft libft.a -o $(NAME)
 
 clean:
 	rm -f libft.a

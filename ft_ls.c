@@ -48,7 +48,7 @@ static void		ft_runlist(t_dirent *lst, int arg, char *name, int *end)
 		ft_recurlist(lst, arg, name, end);
 }
 
-static int		ft_lstdir(char *name, int arg, t_dirent *lst, int *end)
+static void		ft_lstdir(char *name, int arg, t_dirent *lst, int *end)
 {
 	DIR			dir;
 

@@ -25,6 +25,13 @@ typedef struct		s_dirent
 	struct stat		stat;
 }					t_dirent;
 
+void		ft_printl(t_dirent *lst, int arg);
+int			ft_cmpls(t_dirent *turtle, t_dirent *rabbit, int arg, char *name);
+void		ft_swaplist(t_dirent **begin, t_dirent *stick, t_dirent *turtle);
+int			ft_create_direntlist(t_dirent **begin, DIR dir, char *name);
+void		ft_free_dirent_lst(t_dirent *lst);
+void		ft_sortlst(t_dirent **begin, int arg, char *name);
+void		ft_revlst(t_dirent **begin);
 int			ft_ls(char **av, int ac, int arg, int i);
 
 #endif
