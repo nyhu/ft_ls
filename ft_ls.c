@@ -51,14 +51,14 @@ static void		ft_runlist(t_dirent *lst, int arg, char *name, int *end)
 void			ft_lstdir(char *name, int arg, t_dirent *lst, int *end)
 {
 	DIR			*dir;
+	char		*tmp;
 
 	dir = NULL;
 	if (!(dir = opendir(name)))
 	{
-		perror("ft_ls : ");
-		perror(name);
-		perror(" : ");
-		perror(strerror(errno));
+		tmp = ft_strjoin("ft_ls : ", name);
+		perror(tmp);
+		free(tmp);
 		*end |= 1;
 	}
 	else
