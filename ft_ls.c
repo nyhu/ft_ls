@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_ls.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: tboos <marvin@42.fr>                       +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2016/03/03 11:10:49 by tboos             #+#    #+#             */
+/*   Updated: 2016/03/03 12:18:18 by tboos            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 # include "libft.h"
 # include "ft_ls.h"
 
@@ -45,13 +57,13 @@ static void		ft_runlist(t_dirent **lst, int arg, char *name, int *end)
 		ft_deldot(lst, 0);
 	else if (MAG_A & arg)
 		ft_deldot(lst, 1);
-	if (*lst && (*lst)->next)
-		ft_sortlst(lst, arg);
-	if (MIN_R & arg)
-		ft_revlst(lst);
 	ft_print(*lst, arg);
 	if (MAG_R & arg)
+	{
+		if (MIN_A & arg)
+			ft_deldot(lst, 1);
 		ft_recurlist(*lst, arg, name, end);
+	}
 }
 
 void			ft_lstdir(char *name, int arg, t_dirent *lst, int *end)
@@ -69,7 +81,7 @@ void			ft_lstdir(char *name, int arg, t_dirent *lst, int *end)
 	}
 	else
 	{
-		*end |= ft_create_direntlist(&lst, dir, name);
+		*end |= ft_create_d_list(&lst, dir, name, arg);
 		ft_runlist(&lst, arg, name, end);
 		ft_free_dirent_lst(lst);
 		closedir(dir);

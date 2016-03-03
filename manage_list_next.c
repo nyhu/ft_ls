@@ -1,16 +1,27 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   manage_list_next.c                                 :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: tboos <marvin@42.fr>                       +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2016/03/03 11:10:42 by tboos             #+#    #+#             */
+/*   Updated: 2016/03/03 13:37:25 by tboos            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 # include "libft.h"
 # include "ft_ls.h"
 
+/*
 void	ft_swaplist(t_dirent *rabbit, t_dirent *turtle)
 {
 	t_dirent	*memo;
 
-	memo = rabbit->next;
-	rabbit->next = turtle->next;
-	turtle->next = memo;
-	memo = rabbit->next->next;
-	rabbit->next->next = turtle->next->next;
-	turtle->next->next = memo;
+	memo = turtle->next;
+	turtle->next = turtle->next->next;
+	memo->next = rabbit->next;
+	rabbit->next = memo;
 }
 
 t_dirent	*ft_listshunt(t_dirent *begin, int arg)
@@ -25,15 +36,12 @@ t_dirent	*ft_listshunt(t_dirent *begin, int arg)
 	while (stick != begin)
 	{
 		if (ft_cmpls(stick, begin, arg) < 0)
-		{
 			begin = stick;
-			stick = begin;
-		}
 		stick = stick->next;
 	}
 	return (begin);
 }
-
+*/
 static void	ft_printtime(t_dirent *lst)
 {
 	char	*tmp;
@@ -42,8 +50,8 @@ static void	ft_printtime(t_dirent *lst)
 	if ((tmp = ctime(&(lst->stat.st_mtime))))
 	{
 		i = ft_strlen(tmp);
-		tmp[i - 1] = '\0';
-		ft_putstr(tmp);
+		tmp[i - 9] = '\0';
+		ft_putstr(tmp + 4);
 	}
 }
 
