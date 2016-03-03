@@ -6,7 +6,7 @@
 /*   By: tboos <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/03 11:10:42 by tboos             #+#    #+#             */
-/*   Updated: 2016/03/03 14:47:39 by tboos            ###   ########.fr       */
+/*   Updated: 2016/03/03 15:15:22 by tboos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ void		ft_printl(t_dirent *lst)
 		ft_putstr("  ");
 		ft_putstr((getgrgid(lst->stat.st_gid))->gr_name);
 		ft_putchar(' ');
-		ft_putnbr(lst->data->d_reclen);
+		ft_putnbr(lst->stat.st_size);
 		ft_putchar(' ');
 		ft_printtime(lst);
 		ft_putchar(' ');
