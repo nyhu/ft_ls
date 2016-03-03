@@ -6,7 +6,7 @@
 /*   By: tboos <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/03 11:10:42 by tboos             #+#    #+#             */
-/*   Updated: 2016/03/03 13:37:25 by tboos            ###   ########.fr       */
+/*   Updated: 2016/03/03 14:47:39 by tboos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,13 +60,13 @@ void		ft_printl(t_dirent *lst)
 	ft_putstr("total ?\n");
 	while (lst)
 	{
-		ft_putchar(lst->data->d_type);
+		ft_putchar((S_ISDIR(lst->stat.st_mode) ? 'd' : '-'));
 		ft_printperm(lst);
-		ft_putchar(' ');
+		ft_putstr("  ");
 		ft_putnbr(lst->stat.st_nlink);
 		ft_putchar(' ');
 		ft_putstr((getpwuid(lst->stat.st_uid))->pw_name);
-		ft_putchar(' ');
+		ft_putstr("  ");
 		ft_putstr((getgrgid(lst->stat.st_gid))->gr_name);
 		ft_putchar(' ');
 		ft_putnbr(lst->data->d_reclen);
