@@ -6,7 +6,7 @@
 /*   By: tboos <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/03 11:10:56 by tboos             #+#    #+#             */
-/*   Updated: 2016/03/06 01:50:19 by tboos            ###   ########.fr       */
+/*   Updated: 2016/03/06 06:00:17 by tboos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,42 +24,31 @@
 #include <stdio.h>
 #include <sys/ioctl.h>
 
-# define MIN_A 1
-# define MAG_A 1024
-# define MIN_L 2
-# define MAG_R 4
-# define MIN_R 8
-# define MIN_T 16
-# define MIN_U 32
-# define MIN_C 512
-# define MIN_F 64
-# define MIN_G 128
-# define MIN_D 256
+# define MIN_A 0000001
+# define MAG_A 0000002
+# define MIN_L 0000004
+# define MAG_R 0000010
+# define MIN_R 0000020
+# define MIN_T 0000040
+# define MIN_U 0000100
+# define MIN_C 0000200
+# define MIN_F 0000400
+# define MIN_G 0001000
+# define MIN_D 0002000
 # define RABBIT_TIME_C rabbit->stat.st_atimespec.tv_sec
 # define TURTLE_TIME_C turtle->stat.st_atimespec.tv_sec
 # define RABBIT_TIME_M rabbit->stat.st_mtimespec.tv_sec
 # define TURTLE_TIME_M turtle->stat.st_mtimespec.tv_sec
 # define RABBIT_TIME_A rabbit->stat.st_atimespec.tv_sec
 # define TURTLE_TIME_A turtle->stat.st_atimespec.tv_sec
-# define S_IFMT 0170000           /* type of file */
-# define S_IFIFO  0010000  /* named pipe (fifo) */
-# define S_IFCHR  0020000  /* character special */
-# define S_IFDIR  0040000  /* directory */
-# define S_IFBLK  0060000  /* block special */
-# define S_IFREG  0100000  /* regular */
-# define S_IFLNK  0120000  /* symbolic link */
-# define S_IFSOCK 0140000  /* socket */
-# define S_IFWHT  0160000  /* whiteout */
-# define S_ISUID 0004000  /* set user id on execution */
-# define S_ISGID 0002000  /* set group id on execution */
-# define S_ISVTX 0001000  /* save swapped text even after use */
-# define S_IRUSR 0000400  /* read permission, owner */
-# define S_IWUSR 0000200  /* write permission, owner */
-# define S_IXUSR 0000100  /* execute/search permission, owner */
 # define D_SIZE sizeof(struct dirent)
 # define DIRENT_MEMDUP (ft_memcpy(ft_memalloc(D_SIZE), new, D_SIZE))
 # define FREE1 ft_freegiveone
 # define MIN_R_ARG (MIN_R & arg)
+# define CMP_DIR S_ISDIR(lst->stat.st_mode)
+# define CMP_CHR S_ISCHR(lst->stat.st_mode)
+# define CMP_BLK S_ISBLK(lst->stat.st_mode)
+# define CMP_REG S_ISREG(lst->stat.st_mode)
 
 typedef struct		s_dirent
 {

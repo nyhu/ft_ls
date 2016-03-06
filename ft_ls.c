@@ -6,7 +6,7 @@
 /*   By: tboos <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/03 11:10:49 by tboos             #+#    #+#             */
-/*   Updated: 2016/03/06 01:08:35 by tboos            ###   ########.fr       */
+/*   Updated: 2016/03/06 05:29:17 by tboos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,10 +15,10 @@
 
 static void		ft_print(t_dirent *lst, int arg)
 {
-	t_dirent	*rabbit;
-	size_t		nb_col;
-	size_t		line_discipline;
-	size_t		jump;
+	t_dirent		*rabbit;
+	struct winsize	w;
+	size_t			nb_col;
+	size_t			jump;
 
 	if (MIN_L & arg)
 		ft_printl(lst);
@@ -26,7 +26,6 @@ static void		ft_print(t_dirent *lst, int arg)
 	{
 		nb_col = 0;
 		jump = 0;
-		ioctl(0, TIOCGETD, &line_discipline);
 		rabbit = lst;
 		while (rabbit)
 		{
@@ -35,9 +34,10 @@ static void		ft_print(t_dirent *lst, int arg)
 			rabbit = rabbit->next;
 			jump++;
 		}
-		nb_col = line_discipline / nb_col;
-		line_discipline = line_discipline / nb_col;
-		ft_printcol(lst, nb_col, line_discipline, jump);
+		ioctl(0, TIOCGWINSZ, &w);
+		nb_col++;
+		nb_col = w.ws_col / nb_col;
+		ft_printcol(lst, nb_col, w.ws_col, jump);
 	}
 }
 

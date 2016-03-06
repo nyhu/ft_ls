@@ -6,34 +6,26 @@
 /*   By: tboos <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/03 11:10:42 by tboos             #+#    #+#             */
-/*   Updated: 2016/03/06 02:17:12 by tboos            ###   ########.fr       */
+/*   Updated: 2016/03/06 06:48:45 by tboos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 # include "libft.h"
 # include "ft_ls.h"
 
-void		ft_printcol(t_dirent *lst, size_t nb_col, size_t ldisp, size_t jump)
-{
-	char		**tab;
-	size_t		i;
-	size_t		tmp;
-
-		j++;
-	}
-}
-
 static void	ft_printtime(t_dirent *lst)
 {
 	char		*tmp;
 	int			i;
 
+	ft_putchar(' ');
 	if ((tmp = ctime(&(lst->stat.st_mtime))))
 	{
 		i = ft_strlen(tmp);
 		tmp[i - 9] = '\0';
 		ft_putstr(tmp + 4);
 	}
+	ft_putchar(' ');
 }
 
 static int	ft_findtotal(t_dirent *lst, int *len)
@@ -47,6 +39,7 @@ static int	ft_findtotal(t_dirent *lst, int *len)
 	{
 		total += lst->stat.st_blocks;
 		tmp |= lst->stat.st_size;
+		tmp |= lst->stat.st_blksize;
 		lst = lst->next;
 	}
 	while (tmp)
@@ -57,27 +50,47 @@ static int	ft_findtotal(t_dirent *lst, int *len)
 	return (total);
 }
 
+static char		ft_puttype(int st_mode)
+{
+	if (S_ISDIR(st_mode))
+		return ('d');
+	if (S_ISREG(st_mode))
+		return ('-');
+	if (S_ISCHR(st_mode))
+		return ('c');
+	if (S_ISBLK(st_mode))
+		return ('b');
+	if (S_ISLNK(st_mode))
+		return ('l');
+	if (S_ISFIFO(st_mode))
+		return ('f');
+	return ('s');
+}
+
 void		ft_printl(t_dirent *lst)
 {
 	int			len;
 	int			total;
+	char		c;
 
 	len = 1;
+	c = ft_puttype(lst->stat.st_mode);
 	total = ft_findtotal(lst, &len);
 	ft_putstr_nbr_str("total ", total, "\n");
 	while (lst)
 	{
-		ft_putchar((S_ISDIR(lst->stat.st_mode) ? 'd' : '-'));
+		ft_putchar(c);
 		ft_printperm(lst);
 		ft_putstr_nbr_str("  ", lst->stat.st_nlink, " ");
 		ft_putstr((getpwuid(lst->stat.st_uid))->pw_name);
 		ft_putstr("  ");
 		ft_putstr((getgrgid(lst->stat.st_gid))->gr_name);
 		ft_putchar(' ');
-		ft_putcstr(ft_itoa(lst->stat.st_size), ' ', len, 'R');
-		ft_putchar(' ');
+		if (c == '-' || c == 'd' || c == 'l')
+			ft_putcstr(ft_itoa(lst->stat.st_size), ' ', len, 'R');
+		else
+			ft_putcstr(ft_itoa(lst->stat.st_blksize), ' ', len, 'R');
 		ft_printtime(lst);
-		ft_putchar(' ');
 		ft_putendl(lst->data->d_name);
 		lst = lst->next;
 	}
