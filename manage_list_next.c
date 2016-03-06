@@ -6,7 +6,7 @@
 /*   By: tboos <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/03 11:10:42 by tboos             #+#    #+#             */
-/*   Updated: 2016/03/06 08:36:56 by tboos            ###   ########.fr       */
+/*   Updated: 2016/03/06 12:02:49 by tboos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,29 +28,33 @@ static void	ft_printtime(t_dirent *lst)
 	ft_putchar(' ');
 }
 
-static int	ft_findtotal(t_dirent *lst, int *len)
+static void	ft_findpad(t_dirent *lst)
 {
-	int			total;
-	int			memo;
-	int			tmp;
+	t_lpadding	tmp;
+	t_dirent	rabbit;
 
-	memo = 0;
-	total = 0;
+	bzero(&tmp, sizeof(t_lpadding));
 	while (lst)
 	{
-		total += lst->stat.st_blocks;
-		if ((tmp = lst->stat.st_size) > memo)
-			memo = tmp;
-		if ((tmp = lst->stat.st_blksize) > memo)
-			memo = tmp;
+		pad->total += lst->stat.st_blocks;
+		if (lst->stat.st_nlink > tmp.nlink)
+			tmp.nlink = lst->stat.st_nlink;
+		if (tmp.uid < (memo = ft_strlen((getpwuid(lst->stat.st_uid))->pw_name)))
+			tmp.uid = memo;
+		if (tmp.gid < (memo = ft_strlen((getgrgid(lst->stat.st_gid))->gr_name)))
+			tmp.gid = memo;
+		if (tmp.size < lst->stat.st_size)
+			tmp.size = lst->stat.st_size;
 		lst = lst->next;
 	}
-	while (memo)
-	{
-		*len += 1;
-		memo /= 10;
-	}
-	return (total);
+	while ((tmp.nlink /= 10))
+		(pad->nlink)++;
+	while ((tmp.uid /= 10))
+		(pad->uid)++;
+	while ((tmp.gid /= 10))
+		(pad->gid)++;
+	while ((tmp.size /= 10))
+		(pad->size)++;
 }
 
 static char		ft_puttype(int st_mode)
@@ -72,39 +76,26 @@ static char		ft_puttype(int st_mode)
 
 void		ft_printl(t_dirent *lst)
 {
-	int			len;
-	int			total;
-	char		c;
+	t_lpadding	pad;
 
-	len = 0;
-	c = ft_puttype(lst->stat.st_mode);
-	total = ft_findtotal(lst, &len);
-	ft_putstr_nbr_str("total ", total, "\n");
+	bzero(&pad, sizeof(t_lpadding));
+	pad.c = ft_puttype(lst->stat.st_mode);
+	ft_findpad(lst, &pad);
+	ft_putstr_nbr_str("total ", pad.total, "\n");
 	while (lst)
 	{
-		ft_putchar(c);
+		ft_putchar(pad.c);
 		ft_printperm(lst);
-		ft_putstr_nbr_str("  ", lst->stat.st_nlink, " ");
-		ft_putstr((getpwuid(lst->stat.st_uid))->pw_name);
-		ft_putstr("  ");
-		ft_putstr((getgrgid(lst->stat.st_gid))->gr_name);
-		if (c == '-' || c == 'd' || c == 'l')
-			ft_putcstr(ft_itoa(lst->stat.st_size), ' ', len, 'R');
+		ft_putcstr(ft_itoa(lst->stat.st_nlink), ' ', pad.nlink + 1, 'R');
+		ft_putchar(' ');
+		ft_putcstr((getpwuid(lst->stat.st_uid))->pw_name, ' ', pad.uid + 3, 'L');
+		ft_putcstr((getgrgid(lst->stat.st_gid))->gr_name, ' ', pad.gid + 1, 'L');
+		if (pad.c == '-' || pad.c == 'd' || pad.c == 'l')
+			ft_putcstr(ft_itoa(lst->stat.st_size), ' ', pad.size + 1, 'R');
 		else
 			ft_putmajmin(lst->stat);
 		ft_printtime(lst);
 		ft_putendl(lst->data->d_name);
 		lst = lst->next;
 	}
-}
-
-long		ft_cmpls(t_dirent *turtle, t_dirent *rabbit, int arg)
-{
-	if ((MIN_C & arg))
-		return (RABBIT_TIME_A - TURTLE_TIME_A);
-	if ((MIN_U & arg))
-		return (RABBIT_TIME_C - TURTLE_TIME_C);
-	if ((MIN_T & arg))
-		return (RABBIT_TIME_M - TURTLE_TIME_M);
-	return (ft_strcmp(turtle->data->d_name, rabbit->data->d_name));
 }

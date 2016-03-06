@@ -6,7 +6,7 @@
 /*   By: tboos <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/03 11:10:56 by tboos             #+#    #+#             */
-/*   Updated: 2016/03/06 09:18:34 by tboos            ###   ########.fr       */
+/*   Updated: 2016/03/06 12:02:52 by tboos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,10 +48,24 @@
 
 typedef struct dirent	t_direntori;
 typedef struct stat		t_stat;
+typedef struct passwd	t_passwd;
+typedef struct group	t_group;
+typedef struct			s_lpadding
+{
+	char				c;
+	int					total;
+	int					nlink;
+	int					uid;
+	int					gid;
+	int					size;
+}						t_lpadding;
 typedef struct			s_dirent
 {
 	t_direntori			*data;
 	t_stat				stat;
+	t_lpadding			pad;
+	t_passwd			passwd;
+	t_group				group;
 	struct s_dirent		*next;
 }						t_dirent;
 

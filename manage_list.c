@@ -6,12 +6,23 @@
 /*   By: tboos <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/03 11:10:11 by tboos             #+#    #+#             */
-/*   Updated: 2016/03/06 05:01:12 by tboos            ###   ########.fr       */
+/*   Updated: 2016/03/06 12:02:54 by tboos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 # include "libft.h"
 # include "ft_ls.h"
+
+long		ft_cmpls(t_dirent *turtle, t_dirent *rabbit, int arg)
+{
+	if ((MIN_C & arg))
+		return (RABBIT_TIME_A - TURTLE_TIME_A);
+	if ((MIN_U & arg))
+		return (RABBIT_TIME_C - TURTLE_TIME_C);
+	if ((MIN_T & arg))
+		return (RABBIT_TIME_M - TURTLE_TIME_M);
+	return (ft_strcmp(turtle->data->d_name, rabbit->data->d_name));
+}
 
 void			ft_list_insert(t_dirent **begin, t_dirent *rabbit, int arg)
 {
@@ -67,6 +78,8 @@ static t_dirent	*ft_create_direntelem(struct dirent *new, char *name)
 	if (stat(the_name, &(next->stat)) < 0 && ft_freegiveone(next))
 		return (NULL);
 	free(the_name);
+	ft_memmove(next->passwd, getpwuid(next->stat.st_uid), sizeof(t_passwd));
+	ft_memmove(next->group, getgrgid(next->stat.st_gid), sizeof(t_group));
 	next->next = NULL;
 	return (next);
 }
