@@ -6,7 +6,7 @@
 /*   By: tboos <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/03 11:10:49 by tboos             #+#    #+#             */
-/*   Updated: 2016/03/03 12:18:18 by tboos            ###   ########.fr       */
+/*   Updated: 2016/03/06 01:08:35 by tboos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,19 +15,35 @@
 
 static void		ft_print(t_dirent *lst, int arg)
 {
+	t_dirent	*rabbit;
+	size_t		nb_col;
+	size_t		line_discipline;
+	size_t		jump;
+
 	if (MIN_L & arg)
 		ft_printl(lst);
 	else
-		while (lst)
+	{
+		nb_col = 0;
+		jump = 0;
+		ioctl(0, TIOCGETD, &line_discipline);
+		rabbit = lst;
+		while (rabbit)
 		{
-			ft_putendl(lst->data->d_name);
-			lst = lst->next;
+			if (nb_col < ft_strlen(rabbit->data->d_name))
+				nb_col = ft_strlen(rabbit->data->d_name);
+			rabbit = rabbit->next;
+			jump++;
 		}
+		nb_col = line_discipline / nb_col;
+		line_discipline = line_discipline / nb_col;
+		ft_printcol(lst, nb_col, line_discipline, jump);
+	}
 }
 
 static void		ft_recurlist(t_dirent *lst, int arg, char *name, int *end)
 {
-	char	*the_name;
+	char		*the_name;
 
 	while (lst)
 	{

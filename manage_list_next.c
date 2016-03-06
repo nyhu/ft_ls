@@ -6,46 +6,27 @@
 /*   By: tboos <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/03 11:10:42 by tboos             #+#    #+#             */
-/*   Updated: 2016/03/03 15:15:22 by tboos            ###   ########.fr       */
+/*   Updated: 2016/03/06 02:17:12 by tboos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 # include "libft.h"
 # include "ft_ls.h"
 
-/*
-void	ft_swaplist(t_dirent *rabbit, t_dirent *turtle)
+void		ft_printcol(t_dirent *lst, size_t nb_col, size_t ldisp, size_t jump)
 {
-	t_dirent	*memo;
+	char		**tab;
+	size_t		i;
+	size_t		tmp;
 
-	memo = turtle->next;
-	turtle->next = turtle->next->next;
-	memo->next = rabbit->next;
-	rabbit->next = memo;
-}
-
-t_dirent	*ft_listshunt(t_dirent *begin, int arg)
-{
-	t_dirent	*stick;
-
-	stick = begin;
-	while (stick->next)
-		stick = stick->next;
-	stick->next = begin;
-	stick = begin->next;
-	while (stick != begin)
-	{
-		if (ft_cmpls(stick, begin, arg) < 0)
-			begin = stick;
-		stick = stick->next;
+		j++;
 	}
-	return (begin);
 }
-*/
+
 static void	ft_printtime(t_dirent *lst)
 {
-	char	*tmp;
-	int		i;
+	char		*tmp;
+	int			i;
 
 	if ((tmp = ctime(&(lst->stat.st_mtime))))
 	{
@@ -55,21 +36,45 @@ static void	ft_printtime(t_dirent *lst)
 	}
 }
 
+static int	ft_findtotal(t_dirent *lst, int *len)
+{
+	int			total;
+	int			tmp;
+
+	tmp = 0;
+	total = 0;
+	while (lst)
+	{
+		total += lst->stat.st_blocks;
+		tmp |= lst->stat.st_size;
+		lst = lst->next;
+	}
+	while (tmp)
+	{
+		*len += 1;
+		tmp /= 10;
+	}
+	return (total);
+}
+
 void		ft_printl(t_dirent *lst)
 {
-	ft_putstr("total ?\n");
+	int			len;
+	int			total;
+
+	len = 1;
+	total = ft_findtotal(lst, &len);
+	ft_putstr_nbr_str("total ", total, "\n");
 	while (lst)
 	{
 		ft_putchar((S_ISDIR(lst->stat.st_mode) ? 'd' : '-'));
 		ft_printperm(lst);
-		ft_putstr("  ");
-		ft_putnbr(lst->stat.st_nlink);
-		ft_putchar(' ');
+		ft_putstr_nbr_str("  ", lst->stat.st_nlink, " ");
 		ft_putstr((getpwuid(lst->stat.st_uid))->pw_name);
 		ft_putstr("  ");
 		ft_putstr((getgrgid(lst->stat.st_gid))->gr_name);
 		ft_putchar(' ');
-		ft_putnbr(lst->stat.st_size);
+		ft_putcstr(ft_itoa(lst->stat.st_size), ' ', len, 'R');
 		ft_putchar(' ');
 		ft_printtime(lst);
 		ft_putchar(' ');

@@ -6,7 +6,7 @@
 /*   By: tboos <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/03 11:10:56 by tboos             #+#    #+#             */
-/*   Updated: 2016/03/03 13:22:06 by tboos            ###   ########.fr       */
+/*   Updated: 2016/03/06 01:50:19 by tboos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@
 #include <pwd.h>
 #include <time.h>
 #include <stdio.h>
+#include <sys/ioctl.h>
 
 # define MIN_A 1
 # define MAG_A 1024
@@ -62,20 +63,18 @@
 
 typedef struct		s_dirent
 {
-	struct dirent   *data;
+	struct dirent	*data;
 	struct stat		stat;
 	struct s_dirent	*next;
 }					t_dirent;
 
-//t_dirent	*ft_listshunt(t_dirent *lst, int arg);
+void		ft_printcol(t_dirent *lst, size_t nb_col, size_t ldisp, size_t jump);
 void		ft_printperm(t_dirent *lst);
 void		ft_deldot(t_dirent **lst, int mode);
 void		ft_printl(t_dirent *lst);
 long		ft_cmpls(t_dirent *turtle, t_dirent *rabbit, int arg);
-//void		ft_swaplist(t_dirent *rabbit, t_dirent *turtle);
 int			ft_create_d_list(t_dirent **begin, DIR *dir, char *name, int arg);
 void		ft_free_dirent_lst(t_dirent *lst);
-//void		ft_sortlst(t_dirent **begin, int arg);
 void		ft_revlst(t_dirent **begin);
 void		ft_lstdir(char *name, int arg, t_dirent *lst, int *end);
 int			ft_ls(char **av, int ac, int arg, int i);
