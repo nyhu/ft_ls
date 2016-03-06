@@ -6,12 +6,25 @@
 /*   By: tboos <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/06 03:10:59 by tboos             #+#    #+#             */
-/*   Updated: 2016/03/06 05:34:12 by tboos            ###   ########.fr       */
+/*   Updated: 2016/03/06 08:29:28 by tboos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 # include "libft.h"
 # include "ft_ls.h"
+
+void		ft_putmajmin(struct stat stat)
+{
+	int			major;
+	int			minor;
+
+	major = (stat.st_rdev >> 24) & 0xff;
+	minor = (stat.st_rdev) & 0xffffff;
+	ft_putchar(' ');
+	ft_putcstr(ft_itoa(major), ' ', 2, 'R');
+	ft_putstr(",");
+	ft_putcstr(ft_itoa(minor), ' ', 4, 'R');
+}
 
 void		ft_printcol(t_dirent *lst, size_t nb_col, size_t ldisp, size_t jump)
 {

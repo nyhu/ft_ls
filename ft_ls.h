@@ -6,7 +6,7 @@
 /*   By: tboos <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/03 11:10:56 by tboos             #+#    #+#             */
-/*   Updated: 2016/03/06 06:00:17 by tboos            ###   ########.fr       */
+/*   Updated: 2016/03/06 07:43:49 by tboos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,10 +45,6 @@
 # define DIRENT_MEMDUP (ft_memcpy(ft_memalloc(D_SIZE), new, D_SIZE))
 # define FREE1 ft_freegiveone
 # define MIN_R_ARG (MIN_R & arg)
-# define CMP_DIR S_ISDIR(lst->stat.st_mode)
-# define CMP_CHR S_ISCHR(lst->stat.st_mode)
-# define CMP_BLK S_ISBLK(lst->stat.st_mode)
-# define CMP_REG S_ISREG(lst->stat.st_mode)
 
 typedef struct		s_dirent
 {
@@ -57,6 +53,7 @@ typedef struct		s_dirent
 	struct s_dirent	*next;
 }					t_dirent;
 
+void		ft_putmajmin(struct stat stat);
 void		ft_printcol(t_dirent *lst, size_t nb_col, size_t ldisp, size_t jump);
 void		ft_printperm(t_dirent *lst);
 void		ft_deldot(t_dirent **lst, int mode);

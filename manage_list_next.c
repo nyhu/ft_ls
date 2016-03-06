@@ -6,7 +6,7 @@
 /*   By: tboos <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/03 11:10:42 by tboos             #+#    #+#             */
-/*   Updated: 2016/03/06 06:48:45 by tboos            ###   ########.fr       */
+/*   Updated: 2016/03/06 08:11:49 by tboos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,21 +31,24 @@ static void	ft_printtime(t_dirent *lst)
 static int	ft_findtotal(t_dirent *lst, int *len)
 {
 	int			total;
+	int			memo;
 	int			tmp;
 
-	tmp = 0;
+	memo = 0;
 	total = 0;
 	while (lst)
 	{
 		total += lst->stat.st_blocks;
-		tmp |= lst->stat.st_size;
-		tmp |= lst->stat.st_blksize;
+		if ((tmp = lst->stat.st_size) > memo)
+			memo = tmp;
+		if ((tmp = lst->stat.st_blksize) > memo)
+			memo = tmp;
 		lst = lst->next;
 	}
-	while (tmp)
+	while (memo)
 	{
 		*len += 1;
-		tmp /= 10;
+		memo /= 10;
 	}
 	return (total);
 }
@@ -73,7 +76,7 @@ void		ft_printl(t_dirent *lst)
 	int			total;
 	char		c;
 
-	len = 1;
+	len = 0;
 	c = ft_puttype(lst->stat.st_mode);
 	total = ft_findtotal(lst, &len);
 	ft_putstr_nbr_str("total ", total, "\n");
@@ -85,11 +88,10 @@ void		ft_printl(t_dirent *lst)
 		ft_putstr((getpwuid(lst->stat.st_uid))->pw_name);
 		ft_putstr("  ");
 		ft_putstr((getgrgid(lst->stat.st_gid))->gr_name);
-		ft_putchar(' ');
 		if (c == '-' || c == 'd' || c == 'l')
 			ft_putcstr(ft_itoa(lst->stat.st_size), ' ', len, 'R');
 		else
-			ft_putcstr(ft_itoa(lst->stat.st_blksize), ' ', len, 'R');
+			ft_putmajmin(lst->stat);
 		ft_printtime(lst);
 		ft_putendl(lst->data->d_name);
 		lst = lst->next;

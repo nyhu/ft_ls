@@ -6,7 +6,7 @@
 /*   By: tboos <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/03 11:10:49 by tboos             #+#    #+#             */
-/*   Updated: 2016/03/06 05:29:17 by tboos            ###   ########.fr       */
+/*   Updated: 2016/03/06 07:44:15 by tboos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ static void		ft_recurlist(t_dirent *lst, int arg, char *name, int *end)
 		{
 			if (!(the_name = ft_strslashjoin(name, lst->data->d_name)))
 			{
-				perror("ft_ls : error ");
+				perror("ft_ls: error");
 				*end |= 1;
 			}
 			else
@@ -90,7 +90,10 @@ void			ft_lstdir(char *name, int arg, t_dirent *lst, int *end)
 	dir = NULL;
 	if (!(dir = opendir(name)))
 	{
-		tmp = ft_strjoin("ft_ls : ", name);
+		if (!name || !(*name))
+			tmp = ft_strjoin("ft_ls: ", "fts_open");
+		else
+			tmp = ft_strjoin("ft_ls: ", name);
 		perror(tmp);
 		free(tmp);
 		*end |= 1;
