@@ -6,7 +6,7 @@
 /*   By: tboos <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/03 11:10:49 by tboos             #+#    #+#             */
-/*   Updated: 2016/03/06 07:44:15 by tboos            ###   ########.fr       */
+/*   Updated: 2016/03/07 12:25:39 by tboos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ static void		ft_print(t_dirent *lst, int arg)
 		ft_printl(lst);
 	else
 	{
-		nb_col = 0;
+		nb_col = 1;
 		jump = 0;
 		rabbit = lst;
 		while (rabbit)
@@ -35,9 +35,8 @@ static void		ft_print(t_dirent *lst, int arg)
 			jump++;
 		}
 		ioctl(0, TIOCGWINSZ, &w);
-		nb_col++;
 		nb_col = w.ws_col / nb_col;
-		ft_printcol(lst, nb_col, w.ws_col, jump);
+		ft_printcol(lst, (nb_col ? nb_col : 1), w.ws_col, jump);
 	}
 }
 

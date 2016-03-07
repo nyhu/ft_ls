@@ -6,7 +6,7 @@
 /*   By: tboos <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/03 11:10:42 by tboos             #+#    #+#             */
-/*   Updated: 2016/03/06 12:02:49 by tboos            ###   ########.fr       */
+/*   Updated: 2016/03/07 12:07:30 by tboos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,25 +37,21 @@ static void	ft_findpad(t_dirent *lst)
 	rabbit = lst;
 	while (rabbit)
 	{
-		pad->total += rabbit->stat.st_blocks;
+		lst->pad.total += rabbit->stat.st_blocks;
 		if (rabbit->stat.st_nlink > tmp.nlink)
 			tmp.nlink = rabbit->stat.st_nlink;
-		if (tmp.uid < (memo = ft_strlen(rabbit->passwd.pw_name)))
-			tmp.uid = memo;
-		if (tmp.gid < (memo = ft_strlen(rabbit->group.gr_name)
-			tmp.gid = memo;
-		if (tmp.size < rabbit->stat.st_size)
+		if (lst->pad.uid < (int)ft_strlen(rabbit->passwd.pw_name))
+			lst->pad.uid = ft_strlen(rabbit->passwd.pw_name);
+		if (lst->pad.uid < (int)ft_strlen(rabbit->group.gr_name))
+			lst->pad.gid = ft_strlen(rabbit->group.gr_name);
+		if (tmp.size < (int)rabbit->stat.st_size)
 			tmp.size = rabbit->stat.st_size;
-		lst = lst->next;
+		rabbit = rabbit->next;
 	}
 	while ((tmp.nlink /= 10))
-		(lst->pad->nlink)++;
-	while ((tmp.uid /= 10))
-		(lst->pad->uid)++;
-	while ((tmp.gid /= 10))
-		(lst->pad->gid)++;
+		(lst->pad.nlink)++;
 	while ((tmp.size /= 10))
-		(lst->pad->size)++;
+		(lst->pad.size)++;
 }
 
 static char		ft_puttype(int st_mode)
@@ -88,12 +84,12 @@ void		ft_printl(t_dirent *lst)
 		rabbit->pad.c = ft_puttype(lst->stat.st_mode);
 		ft_putchar(rabbit->pad.c);
 		ft_printperm(lst);
-		ft_putcstr(ft_itoa(lst->stat.st_nlink), ' ', rabbit->pad.nlink + 1, 'R');
+		ft_putcstr(ft_itoa(lst->stat.st_nlink), ' ', rabbit->pad.nlink + 3, 'R');
 		ft_putchar(' ');
-		ft_putcstr(lst->passwd->pw_name, ' ', rabbit->pad.uid + 3, 'L');
-		ft_putcstr(lst->group->gr_name, ' ', rabbit->pad.gid + 1, 'L');
+		ft_putcstr(lst->passwd.pw_name, ' ', rabbit->pad.uid + 2, 'L');
+		ft_putcstr(lst->group.gr_name, ' ', rabbit->pad.gid, 'L');
 		if (rabbit->pad.c == '-' || rabbit->pad.c == 'd' || rabbit->pad.c == 'l')
-			ft_putcstr(ft_itoa(lst->stat.st_size), ' ', rabbit->pad.size + 1, 'R');
+			ft_putcstr(ft_itoa(lst->stat.st_size), ' ', rabbit->pad.size + 3, 'R');
 		else
 			ft_putmajmin(lst->stat);
 		ft_printtime(lst);

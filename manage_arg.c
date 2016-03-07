@@ -6,7 +6,7 @@
 /*   By: tboos <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/06 03:10:59 by tboos             #+#    #+#             */
-/*   Updated: 2016/03/06 12:02:56 by tboos            ###   ########.fr       */
+/*   Updated: 2016/03/07 12:26:18 by tboos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@ void		ft_printcol(t_dirent *lst, size_t nb_col, size_t ldisp, size_t jump)
 	size_t		i;
 
 	tab = (char *)ft_memalloc(sizeof(char) * (ldisp * (jump / nb_col + 1) + 1));
+dprintf(1, "yop");
 	ft_memset(tab, ' ', ldisp * (jump / nb_col + 1));
 	i = 0;
 	while (lst)
