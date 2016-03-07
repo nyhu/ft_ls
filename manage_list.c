@@ -6,7 +6,7 @@
 /*   By: tboos <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/03 11:10:11 by tboos             #+#    #+#             */
-/*   Updated: 2016/03/07 16:02:47 by tboos            ###   ########.fr       */
+/*   Updated: 2016/03/07 18:31:20 by tboos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,6 +80,7 @@ static t_dirent	*ft_create_direntelem(struct dirent *new, char *name)
 	free(the_name);
 	ft_memcpy(&next->passwd, getpwuid(next->stat.st_uid), sizeof(t_passwd));
 	ft_memcpy(&next->group, getgrgid(next->stat.st_gid), sizeof(t_group));
+	next->pad.c = ft_returntype(next->stat.st_mode);
 	next->next = NULL;
 	return (next);
 }

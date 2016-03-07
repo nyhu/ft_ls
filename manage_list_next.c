@@ -6,7 +6,7 @@
 /*   By: tboos <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/03 11:10:42 by tboos             #+#    #+#             */
-/*   Updated: 2016/03/07 15:41:34 by tboos            ###   ########.fr       */
+/*   Updated: 2016/03/07 19:14:17 by tboos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,9 +17,18 @@ static void	ft_printtime(t_dirent *lst)
 {
 	char		*tmp;
 	int			i;
+	t_timeval	timeval;
 
+	bzero(&timeval, sizeof(t_timeval));
 	ft_putchar(' ');
-	if ((tmp = ctime(&(lst->stat.st_mtime))))
+	if (!gettimeofday(&timeval, NULL) && CMP_6MONTH 
+		&& (tmp = ctime(&(lst->stat.st_mtime))))
+	{
+		write(1, tmp + 4, 7);
+		ft_putchar(' ');
+		write(1, tmp + 20, 4);
+	}
+	else if ((tmp = ctime(&(lst->stat.st_mtime))))
 	{
 		i = ft_strlen(tmp);
 		tmp[i - 9] = '\0';
@@ -54,7 +63,7 @@ static void	ft_findpad(t_dirent *lst)
 		(lst->pad.size)++;
 }
 
-static char		ft_puttype(int st_mode)
+char		ft_returntype(int st_mode)
 {
 	if (S_ISDIR(st_mode))
 		return ('d');
@@ -71,28 +80,48 @@ static char		ft_puttype(int st_mode)
 	return ('s');
 }
 
+void		ft_putcoldname(char *d_name, char c)
+{
+	if (c == 'd')
+		ft_putcolendl(d_name, "CYAN");
+	else if (c == '-')
+		ft_putcolendl(d_name, "YELLOW");
+	else if (c == 'c')
+		ft_putcolendl(d_name, "RED");
+	else if (c == 'b')
+		ft_putcolendl(d_name, "MAGENTA");
+	else if (c == 'l')
+		ft_putcolendl(d_name, "BLUE");
+	else if (c == 'f')
+		ft_putcolendl(d_name, "CYAN");
+	else
+		ft_putcolendl(d_name, "");
+}
+
 void		ft_printl(t_dirent *lst)
 {
 	t_dirent	*rabbit;
 
-	rabbit = lst;
-	ft_findpad(lst);
-	ft_putstr_nbr_str("total ", lst->pad.total, "\n");
-	while (lst)
+	if (lst)
 	{
-		rabbit->pad.c = ft_puttype(lst->stat.st_mode);
-		ft_putchar(rabbit->pad.c);
-		ft_printperm(lst);
-		ft_putcstr(ft_st_itoa(lst->stat.st_nlink), ' ', rabbit->pad.nlink + 3, 'R');
-		ft_putchar(' ');
-		ft_putcstr(lst->passwd.pw_name, ' ', rabbit->pad.uid + 2, 'L');
-		ft_putcstr(lst->group.gr_name, ' ', rabbit->pad.gid, 'L');
-		if (rabbit->pad.c == '-' || rabbit->pad.c == 'd' || rabbit->pad.c == 'l')
-			ft_putcstr(ft_st_itoa(lst->stat.st_size), ' ', rabbit->pad.size + 3, 'R');
-		else
-			ft_putmajmin(lst->stat);
-		ft_printtime(lst);
-		ft_putendl(lst->data->d_name);
-		lst = lst->next;
+		rabbit = lst;
+		ft_findpad(lst);
+		ft_putstr_nbr_str("total ", lst->pad.total, "\n");
+		while (lst)
+		{
+			ft_putchar(rabbit->pad.c);
+			ft_printperm(lst);
+			ft_putcstr(ft_st_itoa(lst->stat.st_nlink), ' ', rabbit->pad.nlink + 3, 'R');
+			ft_putchar(' ');
+			ft_putcstr(lst->passwd.pw_name, ' ', rabbit->pad.uid + 2, 'L');
+			ft_putcstr(lst->group.gr_name, ' ', rabbit->pad.gid, 'L');
+			if (rabbit->pad.c == '-' || rabbit->pad.c == 'd' || rabbit->pad.c == 'l')
+				ft_putcstr(ft_st_itoa(lst->stat.st_size), ' ', rabbit->pad.size + 3, 'R');
+			else
+				ft_putmajmin(lst->stat);
+			ft_printtime(lst);
+			ft_putcoldname(lst->data->d_name, lst->pad.c);
+			lst = lst->next;
+		}
 	}
 }

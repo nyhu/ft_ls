@@ -1,0 +1,10 @@
+/usr:
+adic
+bin
+include
+lib
+libexec
+local
+sbin
+share
+standalone

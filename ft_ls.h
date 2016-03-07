@@ -6,7 +6,7 @@
 /*   By: tboos <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/03 11:10:56 by tboos             #+#    #+#             */
-/*   Updated: 2016/03/06 12:02:52 by tboos            ###   ########.fr       */
+/*   Updated: 2016/03/07 18:54:02 by tboos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,15 +14,16 @@
 # define FT_LS_H
 
 # include <grp.h>
-# include <sys/stat.h>
-# include <sys/types.h>
 # include <dirent.h>
 # include <errno.h>
 # include <string.h>
 # include <pwd.h>
 # include <time.h>
 # include <stdio.h>
+# include <sys/stat.h>
+# include <sys/types.h>
 # include <sys/ioctl.h>
+# include <sys/time.h>
 
 # define MIN_A 0000001
 # define MAG_A 0000002
@@ -41,6 +42,8 @@
 # define TURTLE_TIME_M turtle->stat.st_mtimespec.tv_sec
 # define RABBIT_TIME_A rabbit->stat.st_atimespec.tv_sec
 # define TURTLE_TIME_A turtle->stat.st_atimespec.tv_sec
+# define SIX_MONTH_IN_SEC 15552000
+# define CMP_6MONTH ((timeval.tv_sec - lst->stat.st_mtime) > SIX_MONTH_IN_SEC)
 # define D_SIZE sizeof(struct dirent)
 # define DIRENT_MEMDUP (ft_memcpy(ft_memalloc(D_SIZE), new, D_SIZE))
 # define FREE1 ft_freegiveone
@@ -50,6 +53,7 @@ typedef struct dirent	t_direntori;
 typedef struct stat		t_stat;
 typedef struct passwd	t_passwd;
 typedef struct group	t_group;
+typedef struct timeval	t_timeval;
 typedef struct			s_lpadding
 {
 	char				c;
@@ -69,6 +73,8 @@ typedef struct			s_dirent
 	struct s_dirent		*next;
 }						t_dirent;
 
+char					ft_returntype(int st_mode);
+void					ft_putcoldname(char *d_name, char c);
 void					ft_putmajmin(struct stat stat);
 void					ft_printcol(t_dirent *lst, size_t nb_col, size_t ldisp,
 						size_t jump);
