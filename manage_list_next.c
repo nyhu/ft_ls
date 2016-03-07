@@ -6,7 +6,7 @@
 /*   By: tboos <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/03 11:10:42 by tboos             #+#    #+#             */
-/*   Updated: 2016/03/07 12:07:30 by tboos            ###   ########.fr       */
+/*   Updated: 2016/03/07 13:40:15 by tboos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,6 @@ void		ft_printl(t_dirent *lst)
 	t_dirent	*rabbit;
 
 	rabbit = lst;
-	bzero(&(lst->pad), sizeof(t_lpadding));
 	ft_findpad(lst);
 	ft_putstr_nbr_str("total ", lst->pad.total, "\n");
 	while (lst)
@@ -84,12 +83,12 @@ void		ft_printl(t_dirent *lst)
 		rabbit->pad.c = ft_puttype(lst->stat.st_mode);
 		ft_putchar(rabbit->pad.c);
 		ft_printperm(lst);
-		ft_putcstr(ft_itoa(lst->stat.st_nlink), ' ', rabbit->pad.nlink + 3, 'R');
+		ft_putcstr(ft_st_itoa(lst->stat.st_nlink), ' ', rabbit->pad.nlink + 3, 'R');
 		ft_putchar(' ');
 		ft_putcstr(lst->passwd.pw_name, ' ', rabbit->pad.uid + 2, 'L');
 		ft_putcstr(lst->group.gr_name, ' ', rabbit->pad.gid, 'L');
 		if (rabbit->pad.c == '-' || rabbit->pad.c == 'd' || rabbit->pad.c == 'l')
-			ft_putcstr(ft_itoa(lst->stat.st_size), ' ', rabbit->pad.size + 3, 'R');
+			ft_putcstr(ft_st_itoa(lst->stat.st_size), ' ', rabbit->pad.size + 3, 'R');
 		else
 			ft_putmajmin(lst->stat);
 		ft_printtime(lst);
