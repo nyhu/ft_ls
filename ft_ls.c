@@ -6,7 +6,7 @@
 /*   By: tboos <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/03 11:10:49 by tboos             #+#    #+#             */
-/*   Updated: 2016/03/07 18:27:20 by tboos            ###   ########.fr       */
+/*   Updated: 2016/03/07 21:02:23 by tboos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ static void		ft_recurlist(t_dirent *lst, int arg, char *name, int *end)
 	}
 }
 
-static void		ft_runlist(t_dirent **lst, int arg, char *name, int *end)
+void		ft_runlist(t_dirent **lst, int arg, char *name, int *end)
 {
 	if (!(MIN_A & arg) && !(MAG_A & arg))
 		ft_deldot(lst, 0);
@@ -88,7 +88,7 @@ void			ft_lstdir(char *name, int arg, t_dirent *lst, int *end)
 	char		*tmp;
 
 	dir = NULL;
-	if (!(dir = opendir(name)))
+	if (!(dir = opendir(name)) && !ft_manage_file(name, arg))
 	{
 		if (!name || !(*name))
 			tmp = ft_strjoin("ft_ls: ", "fts_open");
@@ -98,7 +98,7 @@ void			ft_lstdir(char *name, int arg, t_dirent *lst, int *end)
 		free(tmp);
 		*end |= 1;
 	}
-	else
+	if (dir)
 	{
 		*end |= ft_create_d_list(&lst, dir, name, arg);
 		if (lst)

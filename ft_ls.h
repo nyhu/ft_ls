@@ -6,7 +6,7 @@
 /*   By: tboos <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/03 11:10:56 by tboos             #+#    #+#             */
-/*   Updated: 2016/03/07 18:54:02 by tboos            ###   ########.fr       */
+/*   Updated: 2016/03/07 20:59:53 by tboos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,8 @@ typedef struct			s_dirent
 	struct s_dirent		*next;
 }						t_dirent;
 
+void					ft_runlist(t_dirent **lst, int arg, char *name, int *end);
+int						ft_manage_file(char *name, int arg);
 char					ft_returntype(int st_mode);
 void					ft_putcoldname(char *d_name, char c);
 void					ft_putmajmin(struct stat stat);

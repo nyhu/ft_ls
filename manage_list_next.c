@@ -6,7 +6,7 @@
 /*   By: tboos <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/03 11:10:42 by tboos             #+#    #+#             */
-/*   Updated: 2016/03/07 19:14:17 by tboos            ###   ########.fr       */
+/*   Updated: 2016/03/07 21:02:20 by tboos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,7 +106,8 @@ void		ft_printl(t_dirent *lst)
 	{
 		rabbit = lst;
 		ft_findpad(lst);
-		ft_putstr_nbr_str("total ", lst->pad.total, "\n");
+		if (lst->next)
+			ft_putstr_nbr_str("total ", lst->pad.total, "\n");
 		while (lst)
 		{
 			ft_putchar(rabbit->pad.c);
