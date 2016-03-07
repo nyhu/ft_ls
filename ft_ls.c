@@ -6,7 +6,7 @@
 /*   By: tboos <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/03 11:10:49 by tboos             #+#    #+#             */
-/*   Updated: 2016/03/07 21:02:23 by tboos            ###   ########.fr       */
+/*   Updated: 2016/03/07 21:27:20 by tboos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ static void		ft_recurlist(t_dirent *lst, int arg, char *name, int *end)
 				*end |= 1;
 				return ;
 			}
-			else if (strlen(the_name) < 256)
+			else if (ft_strlen(the_name) < 256)
 			{
 				ft_putstr_str_str_fd("\n", the_name, ":\n", 2);
 				ft_lstdir(the_name, arg, NULL, end);
@@ -120,7 +120,7 @@ int				ft_ls(char **av, int ac, int arg, int i)
 	else
 		while (i < ac)
 		{
-			if (strlen(av[i]) < 256)
+			if (ft_strlen(av[i]) < 256)
 				ft_lstdir(av[i], arg, NULL, &end);
 			else
 			{
