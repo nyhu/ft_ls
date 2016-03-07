@@ -6,7 +6,7 @@
 /*   By: tboos <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/03 11:10:49 by tboos             #+#    #+#             */
-/*   Updated: 2016/03/07 15:17:42 by tboos            ###   ########.fr       */
+/*   Updated: 2016/03/07 15:56:59 by tboos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ static void		ft_recurlist(t_dirent *lst, int arg, char *name, int *end)
 			}
 			else if (strlen(the_name) < 256)
 			{
-				ft_putstr_str_str_fd("\n", the_name, ":\n");
+				ft_putstr_str_str_fd("\n", the_name, ":\n", 2);
 				ft_lstdir(the_name, arg, NULL, end);
 			}
 			else
@@ -120,7 +120,13 @@ int				ft_ls(char **av, int ac, int arg, int i)
 	else
 		while (i < ac)
 		{
-			ft_lstdir(av[i], arg, NULL, &end);
+			if (strlen(av[i]) < 256)
+				ft_lstdir(av[i], arg, NULL, &end);
+			else
+			{
+				ft_putstr_str_str_fd("ft_ls: ", av[i],
+				": File name too long", 2);
+			}
 			i++;
 		}
 	return ((end == 3 ? 2 : end));

@@ -6,7 +6,7 @@
 /*   By: tboos <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/03 11:10:11 by tboos             #+#    #+#             */
-/*   Updated: 2016/03/07 13:24:33 by tboos            ###   ########.fr       */
+/*   Updated: 2016/03/07 16:02:47 by tboos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ static t_dirent	*ft_create_direntelem(struct dirent *new, char *name)
 	char			*tmp;
 	char			*the_name;
 
-	if (!(next = (t_dirent *)malloc(sizeof(t_dirent))))
+	if (!(next = (t_dirent *)ft_memalloc(sizeof(t_dirent))))
 		return (NULL);
 	next->data = new;
 	tmp = ft_strjoin(name, "/");
@@ -78,8 +78,8 @@ static t_dirent	*ft_create_direntelem(struct dirent *new, char *name)
 	if (stat(the_name, &(next->stat)) < 0 && ft_freegiveone(next))
 		return (NULL);
 	free(the_name);
-	ft_memmove(&next->passwd, getpwuid(next->stat.st_uid), sizeof(t_passwd));
-	ft_memmove(&next->group, getgrgid(next->stat.st_gid), sizeof(t_group));
+	ft_memcpy(&next->passwd, getpwuid(next->stat.st_uid), sizeof(t_passwd));
+	ft_memcpy(&next->group, getgrgid(next->stat.st_gid), sizeof(t_group));
 	next->next = NULL;
 	return (next);
 }
