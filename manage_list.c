@@ -6,7 +6,7 @@
 /*   By: tboos <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/03 11:10:11 by tboos             #+#    #+#             */
-/*   Updated: 2016/03/08 14:02:14 by tboos            ###   ########.fr       */
+/*   Updated: 2016/03/08 16:53:48 by tboos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,9 @@ long		ft_cmpls(t_dirent *turtle, t_dirent *rabbit, int arg)
 		return (RABBIT_TIME_A - TURTLE_TIME_A);
 	if ((MIN_T & arg) && (MIN_U & arg))
 		return (RABBIT_TIME_C - TURTLE_TIME_C);
-	if ((MIN_T & arg) && (MIN_T & arg))
+	if ((MIN_T & arg) && (MAG_U & arg))
+		return (RABBIT_TIME_B - TURTLE_TIME_B);
+	if ((MIN_T & arg))
 		return (RABBIT_TIME_M - TURTLE_TIME_M);
 	return (ft_strcmp(turtle->data->d_name, rabbit->data->d_name));
 }
@@ -28,12 +30,12 @@ void			ft_list_insert(t_dirent **begin, t_dirent *rabbit, int arg)
 {
 	t_dirent		*find;
 
-	if (MIN_R_ARG && ft_cmpls(*begin, rabbit, arg) < 0)
+	if ((MIN_R & arg) && ft_cmpls(*begin, rabbit, arg) < 0)
 	{
 		rabbit->next = *begin;
 		*begin = rabbit;
 	}
-	else if (!MIN_R_ARG && ft_cmpls(*begin, rabbit, arg) > 0)
+	else if (!(MIN_R & arg) && ft_cmpls(*begin, rabbit, arg) > 0)
 	{
 		rabbit->next = *begin;
 		*begin = rabbit;
@@ -41,9 +43,9 @@ void			ft_list_insert(t_dirent **begin, t_dirent *rabbit, int arg)
 	else
 	{
 		find = *begin;
-		while (find->next && MIN_R_ARG && !(ft_cmpls(find->next, rabbit, arg) < 0))
+		while (find->next && (MIN_R & arg) && !(ft_cmpls(find->next, rabbit, arg) < 0))
 			find = find->next;
-		while (find->next && !MIN_R_ARG && !(ft_cmpls(find->next, rabbit, arg) > 0))
+		while (find->next && !(MIN_R & arg) && !(ft_cmpls(find->next, rabbit, arg) > 0))
 			find = find->next;
 		rabbit->next = find->next;
 		find->next = rabbit;
@@ -63,7 +65,7 @@ void			ft_free_dirent_lst(t_dirent *lst)
 	}
 }
 
-static t_dirent	*ft_create_direntelem(struct dirent *new, char *name)
+static t_dirent	*ft_create_direntelem(struct dirent *new, char *name, int arg)
 {
 	t_dirent		*next;
 	char			*tmp;
@@ -75,7 +77,9 @@ static t_dirent	*ft_create_direntelem(struct dirent *new, char *name)
 	tmp = ft_strjoin(name, "/");
 	the_name = ft_strjoin(tmp, new->d_name);
 	free(tmp);
-	if (stat(the_name, &(next->stat)) < 0 && ft_freegiveone(next))
+	if ((MAG_H & arg) && lstat(the_name, &(next->stat)) < 0 && ft_freegiveone(next))
+		return (NULL);
+	if (!(MAG_H & arg) && stat(the_name, &(next->stat)) < 0 && ft_freegiveone(next))
 		return (NULL);
 	free(the_name);
 	ft_memcpy(&next->passwd, getpwuid(next->stat.st_uid), sizeof(t_passwd));
@@ -94,15 +98,18 @@ int				ft_create_d_list(t_dirent **begin, DIR *dir, char *name, int arg)
 		return (0);
 	if (!(new = (struct dirent *)DIRENT_MEMDUP))
 		return (1);
-	if ((!begin || !(*begin = ft_create_direntelem(new, name))) && FREE1(new))
+	if ((!begin || !(*begin = ft_create_direntelem(new, name, arg))) && FREE1(new))
 		return (1);
 	while ((new = readdir(dir)))
 	{
 		if (!(new = (struct dirent *)DIRENT_MEMDUP))
 			return (1);
-		if (!(rabbit = ft_create_direntelem(new, name)) && FREE1(new))
+		if (!(rabbit = ft_create_direntelem(new, name, arg)) && FREE1(new))
 			return (1);
-		ft_list_insert(begin, rabbit, arg);
+		if ((MIN_F & arg))
+			ft_catlst(*begin, rabbit);
+		else
+			ft_list_insert(begin, rabbit, arg);
 	}
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: tboos <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/03 11:10:49 by tboos             #+#    #+#             */
-/*   Updated: 2016/03/08 14:00:34 by tboos            ###   ########.fr       */
+/*   Updated: 2016/03/08 16:05:42 by tboos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ static void		ft_print(t_dirent *lst, int arg)
 	size_t			nb_col;
 	size_t			jump;
 
-	if (MIN_L & arg)
+	if ((MIN_L & arg) || (MIN_O & arg))
 		ft_printl(lst, arg);
 	else if (NUM_O & arg)
 		ft_normprint(lst);
@@ -71,12 +71,12 @@ static void		ft_recurlist(t_dirent *lst, int arg, char *name, int *end)
 
 void		ft_runlist(t_dirent **lst, int arg, char *name, int *end)
 {
-	if (!(MIN_A & arg) && !(MAG_A & arg))
+	if (!(MIN_A & arg) && !(MAG_A & arg) && !(MIN_F & arg))
 		ft_deldot(lst, 0);
-	else if (MAG_A & arg)
+	else if ((MAG_A & arg) && !(MIN_F & arg))
 		ft_deldot(lst, 1);
 	ft_print(*lst, arg);
-	if (MAG_R & arg)
+	if ((MAG_R & arg) && !(MIN_F & arg))
 	{
 		if (MIN_A & arg)
 			ft_deldot(lst, 1);

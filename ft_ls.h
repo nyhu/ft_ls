@@ -6,7 +6,7 @@
 /*   By: tboos <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/03 11:10:56 by tboos             #+#    #+#             */
-/*   Updated: 2016/03/08 14:04:23 by tboos            ###   ########.fr       */
+/*   Updated: 2016/03/08 16:07:47 by tboos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,9 +34,13 @@
 # define MIN_U 0000100
 # define MIN_C 0000200
 # define MIN_F 0000400
-# define MIN_G 0001000
-# define MIN_D 0002000
+# define MIN_O 0001000
+# define MAG_H 0002000
 # define NUM_O 0004000
+# define MAG_C 0010000
+# define MAG_U 0020000
+# define RABBIT_TIME_B rabbit->stat.st_birthtimespec.tv_sec
+# define TURTLE_TIME_B turtle->stat.st_birthtimespec.tv_sec
 # define RABBIT_TIME_C rabbit->stat.st_atimespec.tv_sec
 # define TURTLE_TIME_C turtle->stat.st_atimespec.tv_sec
 # define RABBIT_TIME_M rabbit->stat.st_mtimespec.tv_sec
@@ -44,7 +48,7 @@
 # define RABBIT_TIME_A rabbit->stat.st_ctimespec.tv_sec
 # define TURTLE_TIME_A turtle->stat.st_ctimespec.tv_sec
 # define SIX_MONTH_IN_SEC 15552000
-# define CMP_6MONTH ((timeval.tv_sec - lst->stat.st_mtime) > SIX_MONTH_IN_SEC)
+# define CMP_6MONTH ((timeval.tv_sec - time) > SIX_MONTH_IN_SEC)
 # define D_SIZE sizeof(struct dirent)
 # define DIRENT_MEMDUP (ft_memcpy(ft_memalloc(D_SIZE), new, D_SIZE))
 # define FREE1 ft_freegiveone
@@ -74,6 +78,7 @@ typedef struct			s_dirent
 	struct s_dirent		*next;
 }						t_dirent;
 
+void			ft_catlst(t_dirent *begin, t_dirent *rabbit);
 void					ft_normprint(t_dirent *lst);
 time_t					ft_returntime(t_dirent *lst, int arg);
 void					ft_runlist(t_dirent **lst, int arg, char *name, int *end);

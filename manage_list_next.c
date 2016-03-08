@@ -6,7 +6,7 @@
 /*   By: tboos <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/03 11:10:42 by tboos             #+#    #+#             */
-/*   Updated: 2016/03/08 14:01:34 by tboos            ###   ########.fr       */
+/*   Updated: 2016/03/08 17:04:14 by tboos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,14 +69,14 @@ char		ft_returntype(int st_mode)
 {
 	if (S_ISDIR(st_mode))
 		return ('d');
+	if (S_ISLNK(st_mode))
+		return ('l');
 	if (S_ISREG(st_mode))
 		return ('-');
 	if (S_ISCHR(st_mode))
 		return ('c');
 	if (S_ISBLK(st_mode))
 		return ('b');
-	if (S_ISLNK(st_mode))
-		return ('l');
 	if (S_ISFIFO(st_mode))
 		return ('f');
 	return ('s');
@@ -112,12 +112,13 @@ void		ft_printl(t_dirent *lst, int arg)
 			ft_putstr_nbr_str("total ", lst->pad.total, "\n");
 		while (lst)
 		{
-			ft_putchar(rabbit->pad.c);
+			ft_putchar(lst->pad.c);
 			ft_printperm(lst);
 			ft_putcstr(ft_st_itoa(lst->stat.st_nlink), ' ', rabbit->pad.nlink + 3, 'R');
 			ft_putchar(' ');
 			ft_putcstr(lst->passwd.pw_name, ' ', rabbit->pad.uid + 2, 'L');
-			ft_putcstr(lst->group.gr_name, ' ', rabbit->pad.gid, 'L');
+			if (!(MIN_O & arg))
+				ft_putcstr(lst->group.gr_name, ' ', rabbit->pad.gid, 'L');
 			if (rabbit->pad.c == '-' || rabbit->pad.c == 'd' || rabbit->pad.c == 'l')
 				ft_putcstr(ft_st_itoa(lst->stat.st_size), ' ', rabbit->pad.size + 3, 'R');
 			else

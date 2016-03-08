@@ -6,7 +6,7 @@
 /*   By: tboos <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/07 19:36:45 by tboos             #+#    #+#             */
-/*   Updated: 2016/03/08 14:03:55 by tboos            ###   ########.fr       */
+/*   Updated: 2016/03/08 16:15:18 by tboos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,8 @@ time_t			ft_returntime(t_dirent *lst, int arg)
 {
 	if (arg & MIN_U)
 		return (lst->stat.st_atimespec.tv_sec);
+	if (arg & MAG_U)
+		return (lst->stat.st_birthtimespec.tv_sec);
 	if (arg & MIN_C)
 		return (lst->stat.st_ctimespec.tv_sec);
 	return (lst->stat.st_mtimespec.tv_sec);
@@ -79,4 +81,11 @@ int				ft_manage_file(char *name, int arg)
 	else
 		ft_create_d_list(&lst, dir, ".", arg);
 	return (ft_print_only_one(lst, name, arg));
+}
+
+void			ft_catlst(t_dirent *begin, t_dirent *rabbit)
+{
+	while (begin->next)
+		begin = begin->next;
+	begin->next = rabbit;
 }
