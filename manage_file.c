@@ -6,12 +6,30 @@
 /*   By: tboos <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/07 19:36:45 by tboos             #+#    #+#             */
-/*   Updated: 2016/03/07 21:02:22 by tboos            ###   ########.fr       */
+/*   Updated: 2016/03/08 14:03:55 by tboos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 # include "libft.h"
 # include "ft_ls.h"
+
+void			ft_normprint(t_dirent *lst)
+{
+	while (lst)
+	{
+		ft_putcoldname(lst->data->d_name, lst->pad.c);
+		lst = lst->next;
+	}
+}
+
+time_t			ft_returntime(t_dirent *lst, int arg)
+{
+	if (arg & MIN_U)
+		return (lst->stat.st_atimespec.tv_sec);
+	if (arg & MIN_C)
+		return (lst->stat.st_ctimespec.tv_sec);
+	return (lst->stat.st_mtimespec.tv_sec);
+}
 
 static int		ft_print_only_one(t_dirent *lst, char *name, int arg)
 {

@@ -6,7 +6,7 @@
 /*   By: tboos <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/05 20:52:38 by tboos             #+#    #+#             */
-/*   Updated: 2016/03/07 12:04:22 by tboos            ###   ########.fr       */
+/*   Updated: 2016/03/08 14:00:38 by tboos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,28 +15,20 @@
 
 static void	ft_timesort(char c, int *arg)
 {
+		if (c == '1')
+			*arg += NUM_O;
 		if (c == 'c')
 		{
 			*arg += MIN_C;
-			if (*arg & MIN_T)
-				*arg -= MIN_T;
-			else if (*arg & MIN_U)
+			if (*arg & MIN_U)
 				*arg -= MIN_U;
 		}
 		if (c == 't')
-		{
 			*arg += MIN_T;
-			if (*arg & MIN_C)
-				*arg -= MIN_C;
-			else if (*arg & MIN_U)
-				*arg -= MIN_U;
-		}
 		if (c == 'u')
 		{
 			*arg += MIN_U;
-			if (*arg & MIN_T)
-				*arg -= MIN_T;
-			else if (*arg & MIN_C)
+			if (*arg & MIN_C)
 				*arg -= MIN_C;
 		}
 }

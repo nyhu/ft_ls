@@ -6,7 +6,7 @@
 /*   By: tboos <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/03 11:10:49 by tboos             #+#    #+#             */
-/*   Updated: 2016/03/07 21:27:20 by tboos            ###   ########.fr       */
+/*   Updated: 2016/03/08 14:00:34 by tboos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,9 @@ static void		ft_print(t_dirent *lst, int arg)
 	size_t			jump;
 
 	if (MIN_L & arg)
-		ft_printl(lst);
+		ft_printl(lst, arg);
+	else if (NUM_O & arg)
+		ft_normprint(lst);
 	else
 	{
 		nb_col = 1;

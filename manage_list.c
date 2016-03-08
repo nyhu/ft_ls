@@ -6,7 +6,7 @@
 /*   By: tboos <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/03 11:10:11 by tboos             #+#    #+#             */
-/*   Updated: 2016/03/07 20:59:54 by tboos            ###   ########.fr       */
+/*   Updated: 2016/03/08 14:02:14 by tboos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,11 +15,11 @@
 
 long		ft_cmpls(t_dirent *turtle, t_dirent *rabbit, int arg)
 {
-	if ((MIN_C & arg))
+	if ((MIN_T & arg) && (MIN_C & arg))
 		return (RABBIT_TIME_A - TURTLE_TIME_A);
-	if ((MIN_U & arg))
+	if ((MIN_T & arg) && (MIN_U & arg))
 		return (RABBIT_TIME_C - TURTLE_TIME_C);
-	if ((MIN_T & arg))
+	if ((MIN_T & arg) && (MIN_T & arg))
 		return (RABBIT_TIME_M - TURTLE_TIME_M);
 	return (ft_strcmp(turtle->data->d_name, rabbit->data->d_name));
 }

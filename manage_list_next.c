@@ -6,29 +6,31 @@
 /*   By: tboos <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/03 11:10:42 by tboos             #+#    #+#             */
-/*   Updated: 2016/03/07 21:02:20 by tboos            ###   ########.fr       */
+/*   Updated: 2016/03/08 14:01:34 by tboos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 # include "libft.h"
 # include "ft_ls.h"
 
-static void	ft_printtime(t_dirent *lst)
+static void	ft_printtime(t_dirent *lst, int arg)
 {
 	char		*tmp;
 	int			i;
 	t_timeval	timeval;
+	time_t		time;
 
+	time = ft_returntime(lst, arg);
+	tmp = ctime(&time);
 	bzero(&timeval, sizeof(t_timeval));
 	ft_putchar(' ');
-	if (!gettimeofday(&timeval, NULL) && CMP_6MONTH 
-		&& (tmp = ctime(&(lst->stat.st_mtime))))
+	if (!gettimeofday(&timeval, NULL) && CMP_6MONTH )
 	{
 		write(1, tmp + 4, 7);
 		ft_putchar(' ');
 		write(1, tmp + 20, 4);
 	}
-	else if ((tmp = ctime(&(lst->stat.st_mtime))))
+	else
 	{
 		i = ft_strlen(tmp);
 		tmp[i - 9] = '\0';
@@ -98,7 +100,7 @@ void		ft_putcoldname(char *d_name, char c)
 		ft_putcolendl(d_name, "");
 }
 
-void		ft_printl(t_dirent *lst)
+void		ft_printl(t_dirent *lst, int arg)
 {
 	t_dirent	*rabbit;
 
@@ -120,7 +122,7 @@ void		ft_printl(t_dirent *lst)
 				ft_putcstr(ft_st_itoa(lst->stat.st_size), ' ', rabbit->pad.size + 3, 'R');
 			else
 				ft_putmajmin(lst->stat);
-			ft_printtime(lst);
+			ft_printtime(lst, arg);
 			ft_putcoldname(lst->data->d_name, lst->pad.c);
 			lst = lst->next;
 		}

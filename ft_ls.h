@@ -6,7 +6,7 @@
 /*   By: tboos <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/03 11:10:56 by tboos             #+#    #+#             */
-/*   Updated: 2016/03/07 20:59:53 by tboos            ###   ########.fr       */
+/*   Updated: 2016/03/08 14:04:23 by tboos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,12 +36,13 @@
 # define MIN_F 0000400
 # define MIN_G 0001000
 # define MIN_D 0002000
+# define NUM_O 0004000
 # define RABBIT_TIME_C rabbit->stat.st_atimespec.tv_sec
 # define TURTLE_TIME_C turtle->stat.st_atimespec.tv_sec
 # define RABBIT_TIME_M rabbit->stat.st_mtimespec.tv_sec
 # define TURTLE_TIME_M turtle->stat.st_mtimespec.tv_sec
-# define RABBIT_TIME_A rabbit->stat.st_atimespec.tv_sec
-# define TURTLE_TIME_A turtle->stat.st_atimespec.tv_sec
+# define RABBIT_TIME_A rabbit->stat.st_ctimespec.tv_sec
+# define TURTLE_TIME_A turtle->stat.st_ctimespec.tv_sec
 # define SIX_MONTH_IN_SEC 15552000
 # define CMP_6MONTH ((timeval.tv_sec - lst->stat.st_mtime) > SIX_MONTH_IN_SEC)
 # define D_SIZE sizeof(struct dirent)
@@ -73,6 +74,8 @@ typedef struct			s_dirent
 	struct s_dirent		*next;
 }						t_dirent;
 
+void					ft_normprint(t_dirent *lst);
+time_t					ft_returntime(t_dirent *lst, int arg);
 void					ft_runlist(t_dirent **lst, int arg, char *name, int *end);
 int						ft_manage_file(char *name, int arg);
 char					ft_returntype(int st_mode);
@@ -82,7 +85,7 @@ void					ft_printcol(t_dirent *lst, size_t nb_col, size_t ldisp,
 						size_t jump);
 void					ft_printperm(t_dirent *lst);
 void					ft_deldot(t_dirent **lst, int mode);
-void					ft_printl(t_dirent *lst);
+void					ft_printl(t_dirent *lst, int arg);
 long					ft_cmpls(t_dirent *turtle, t_dirent *rabbit, int arg);
 int						ft_create_d_list(t_dirent **begin, DIR *dir,
 						char *name, int arg);
