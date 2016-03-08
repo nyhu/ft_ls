@@ -6,7 +6,7 @@
 /*   By: tboos <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/03 11:10:42 by tboos             #+#    #+#             */
-/*   Updated: 2016/03/08 18:42:04 by tboos            ###   ########.fr       */
+/*   Updated: 2016/03/08 19:26:17 by tboos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,7 +112,6 @@ void		ft_printl(t_dirent *lst, int arg)
 			ft_putstr_nbr_str("total ", lst->pad.total, "\n");
 		while (lst)
 		{
-dprintf(1, "%o", lst->stat.st_mode);
 			ft_putchar(lst->pad.c);
 			ft_printperm(lst);
 			ft_putcstr(ft_st_itoa(lst->stat.st_nlink), ' ', rabbit->pad.nlink + 3, 'R');

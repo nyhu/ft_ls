@@ -6,7 +6,7 @@
 /*   By: tboos <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/03 11:10:56 by tboos             #+#    #+#             */
-/*   Updated: 2016/03/08 18:42:01 by tboos            ###   ########.fr       */
+/*   Updated: 2016/03/08 20:33:40 by tboos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,7 @@
 # define NUM_O 0004000
 # define MAG_C 0010000
 # define MAG_U 0020000
+# define MIN_Y 0040000
 # define RABBIT_TIME_B rabbit->stat.st_birthtimespec.tv_sec
 # define TURTLE_TIME_B turtle->stat.st_birthtimespec.tv_sec
 # define RABBIT_TIME_C rabbit->stat.st_atimespec.tv_sec

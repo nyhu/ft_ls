@@ -6,7 +6,7 @@
 /*   By: tboos <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/05 20:52:38 by tboos             #+#    #+#             */
-/*   Updated: 2016/03/08 16:04:55 by tboos            ###   ########.fr       */
+/*   Updated: 2016/03/08 20:32:43 by tboos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,8 @@ static void	ft_format(char c, int *arg)
 		if (*arg & NUM_O)
 			*arg -= NUM_O;
 	}
+	if (c == 'y')
+		*arg |= MIN_Y;
 	if (c == 'H')
 		*arg |= MAG_H;
 }
@@ -102,7 +104,6 @@ int			main(int  ac, char **av)
 	while (ac > 1 && i < ac && av[i][0] == '-')
 		if (!(ft_matcharg(av[i++], &arg)))
 			break ;
-	if (MAG_H & arg && MIN_L & arg)
+	if (!(MIN_Y & arg) && (MAG_H & arg) && (MIN_L & arg))
 		arg -= MAG_H;
-	return (ft_ls(av, ac, arg, i));
-}
+	return (ft_ls(av, ac, arg, i));}
