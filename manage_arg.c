@@ -6,14 +6,14 @@
 /*   By: tboos <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/06 03:10:59 by tboos             #+#    #+#             */
-/*   Updated: 2016/03/08 14:20:22 by tboos            ###   ########.fr       */
+/*   Updated: 2016/03/08 17:58:07 by tboos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 # include "libft.h"
 # include "ft_ls.h"
 
-void		ft_putmajmin(struct stat stat)
+void		ft_putmajmin(t_stat stat)
 {
 	int			major;
 	int			minor;

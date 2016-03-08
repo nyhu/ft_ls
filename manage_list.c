@@ -6,7 +6,7 @@
 /*   By: tboos <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/03 11:10:11 by tboos             #+#    #+#             */
-/*   Updated: 2016/03/08 16:53:48 by tboos            ###   ########.fr       */
+/*   Updated: 2016/03/08 19:08:00 by tboos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,7 @@ void			ft_free_dirent_lst(t_dirent *lst)
 static t_dirent	*ft_create_direntelem(struct dirent *new, char *name, int arg)
 {
 	t_dirent		*next;
+	t_stat			tmp_stat;
 	char			*tmp;
 	char			*the_name;
 
@@ -77,10 +78,12 @@ static t_dirent	*ft_create_direntelem(struct dirent *new, char *name, int arg)
 	tmp = ft_strjoin(name, "/");
 	the_name = ft_strjoin(tmp, new->d_name);
 	free(tmp);
-	if ((MAG_H & arg) && lstat(the_name, &(next->stat)) < 0 && ft_freegiveone(next))
+	if ((MAG_H & arg) && stat(the_name, &tmp_stat) < 0 && ft_freegiveone(next))
 		return (NULL);
-	if (!(MAG_H & arg) && stat(the_name, &(next->stat)) < 0 && ft_freegiveone(next))
+	if (!(MAG_H & arg) && lstat(the_name, &tmp_stat) < 0 && ft_freegiveone(next))
 		return (NULL);
+	ft_memcpy(&(next->stat), &tmp_stat, sizeof(t_stat));
+dprintf(1, "%s  stat.st_mode = %o arg = %o\n",the_name, next->stat.st_mode, arg);
 	free(the_name);
 	ft_memcpy(&next->passwd, getpwuid(next->stat.st_uid), sizeof(t_passwd));
 	ft_memcpy(&next->group, getgrgid(next->stat.st_gid), sizeof(t_group));

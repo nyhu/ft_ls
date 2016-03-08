@@ -6,7 +6,7 @@
 /*   By: tboos <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/03 11:10:56 by tboos             #+#    #+#             */
-/*   Updated: 2016/03/08 16:07:47 by tboos            ###   ########.fr       */
+/*   Updated: 2016/03/08 18:42:01 by tboos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,9 +83,9 @@ void					ft_normprint(t_dirent *lst);
 time_t					ft_returntime(t_dirent *lst, int arg);
 void					ft_runlist(t_dirent **lst, int arg, char *name, int *end);
 int						ft_manage_file(char *name, int arg);
-char					ft_returntype(int st_mode);
+char					ft_returntype(mode_t st_mode);
 void					ft_putcoldname(char *d_name, char c);
-void					ft_putmajmin(struct stat stat);
+void					ft_putmajmin(t_stat stat);
 void					ft_printcol(t_dirent *lst, size_t nb_col, size_t ldisp,
 						size_t jump);
 void					ft_printperm(t_dirent *lst);
