@@ -6,7 +6,7 @@
 /*   By: tboos <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/03 11:10:11 by tboos             #+#    #+#             */
-/*   Updated: 2016/03/10 14:05:07 by tboos            ###   ########.fr       */
+/*   Updated: 2016/03/10 19:33:57 by tboos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,9 +43,9 @@ void			ft_list_insert(t_dirent **begin, t_dirent *rabbit, int arg)
 	else
 	{
 		find = *begin;
-		while (find->next && (MIN_R & arg) && !CMP_ELEM < 0)
+		while (find->next && (MIN_R & arg) && !(CMP_ELEM < 0))
 			find = find->next;
-		while (find->next && !(MIN_R & arg) && !CMP_ELEM > 0)
+		while (find->next && !(MIN_R & arg) && !(CMP_ELEM > 0))
 			find = find->next;
 		rabbit->next = find->next;
 		find->next = rabbit;
@@ -83,10 +83,13 @@ static t_dirent	*ft_create_direntelem(struct dirent *new, char *name, int arg)
 	if (!(MAG_H & arg) && lstat(the_name, &(next->stat)) < 0
 		&& ft_freegiveone(next))
 		return (NULL);
-	free(the_name);
 	ft_memcpy(&next->passwd, getpwuid(next->stat.st_uid), sizeof(t_passwd));
 	ft_memcpy(&next->group, getgrgid(next->stat.st_gid), sizeof(t_group));
 	next->pad.c = ft_returntype(next->stat.st_mode);
+	if (arg & MIN_L && next->pad.c == 'l'
+		&& readlink(the_name, next->link, 255) <= 0)
+		perror(next->data->d_name);
+	free(the_name);
 	next->next = NULL;
 	return (next);
 }

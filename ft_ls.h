@@ -6,7 +6,7 @@
 /*   By: tboos <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/03 11:10:56 by tboos             #+#    #+#             */
-/*   Updated: 2016/03/10 14:13:30 by tboos            ###   ########.fr       */
+/*   Updated: 2016/03/10 19:31:47 by tboos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@
 # include <sys/types.h>
 # include <sys/ioctl.h>
 # include <sys/time.h>
+# include <sys/xattr.h>
 
 # define MIN_A 0000001
 # define MAG_A 0000002
@@ -40,7 +41,7 @@
 # define MAG_C 0010000
 # define MAG_U 0020000
 # define MIN_Y 0040000
-# define CMPELEM (ft_cmpls(find->next, rabbit, arg))
+# define CMP_ELEM (ft_cmpls(find->next, rabbit, arg))
 # define RABBIT_TIME_B rabbit->stat.st_birthtimespec.tv_sec
 # define TURTLE_TIME_B turtle->stat.st_birthtimespec.tv_sec
 # define RABBIT_TIME_C rabbit->stat.st_atimespec.tv_sec
@@ -73,6 +74,7 @@ typedef struct			s_lpadding
 typedef struct			s_dirent
 {
 	t_direntori			*data;
+	char				link[256];
 	t_stat				stat;
 	t_lpadding			pad;
 	t_passwd			passwd;
@@ -85,13 +87,13 @@ void					ft_normprint(t_dirent *lst);
 time_t					ft_returntime(t_dirent *lst, int arg);
 void					ft_runlist(t_dirent **lst, int arg, char *name,
 						int *end);
-int						ft_manage_file(char *name, int arg);
+int						ft_manage_file(char *name, int arg, int *end);
 char					ft_returntype(mode_t st_mode);
-void					ft_putcoldname(char *d_name, char c);
+void					ft_putcoldname(t_dirent *lst);
 void					ft_putmajmin(t_stat stat);
 void					ft_printcol(t_dirent *lst, size_t nb_col, size_t ldisp,
 						size_t jump);
-void					ft_printperm(t_dirent *lst);
+void					ft_printperm(t_dirent *lst, t_dirent *rabbit);
 void					ft_deldot(t_dirent **lst, int mode);
 void					ft_printl(t_dirent *lst, int arg);
 long					ft_cmpls(t_dirent *turtle, t_dirent *rabbit, int arg);

@@ -6,7 +6,7 @@
 /*   By: tboos <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/03 11:10:49 by tboos             #+#    #+#             */
-/*   Updated: 2016/03/10 14:12:51 by tboos            ###   ########.fr       */
+/*   Updated: 2016/03/10 19:32:25 by tboos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ static void		ft_recurlist(t_dirent *lst, int arg, char *name, int *end)
 			}
 			else
 				ft_putstr_str_str_fd("ft_ls: ", the_name,
-					": File name too long", 2);
+						": File name too long", 2);
 			free(the_name);
 		}
 		lst = lst->next;
@@ -91,17 +91,7 @@ void			ft_lstdir(char *name, int arg, t_dirent *lst, int *end)
 	char			*tmp;
 
 	dir = NULL;
-	if (!(dir = opendir(name)) && !ft_manage_file(name, arg))
-	{
-		if (!name || !(*name))
-			tmp = ft_strjoin("ft_ls: ", "fts_open");
-		else
-			tmp = ft_strjoin("ft_ls: ", name);
-		perror(tmp);
-		free(tmp);
-		*end |= 1;
-	}
-	if (dir)
+	if ((dir = opendir(name)))
 	{
 		*end |= ft_create_d_list(&lst, dir, name, arg);
 		if (lst)
@@ -110,6 +100,13 @@ void			ft_lstdir(char *name, int arg, t_dirent *lst, int *end)
 			ft_free_dirent_lst(lst);
 		}
 		closedir(dir);
+	}
+	else if (!ft_manage_file(name, arg, end))
+	{
+		tmp = ft_strjoin("ft_ls: ", name);
+		perror(tmp);
+		free(tmp);
+		*end |= 1;
 	}
 }
 
@@ -128,9 +125,9 @@ int				ft_ls(char **av, int ac, int arg, int i)
 			else
 			{
 				ft_putstr_str_str_fd("ft_ls: ", av[i],
-				": File name too long", 2);
+						": File name too long", 2);
 			}
 			i++;
 		}
-	return ((end == 3 ? 2 : end));
+	return (end);
 }

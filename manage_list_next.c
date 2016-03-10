@@ -6,7 +6,7 @@
 /*   By: tboos <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/03 11:10:42 by tboos             #+#    #+#             */
-/*   Updated: 2016/03/10 14:10:08 by tboos            ###   ########.fr       */
+/*   Updated: 2016/03/10 19:34:16 by tboos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,22 +82,33 @@ char		ft_returntype(mode_t st_mode)
 	return ('s');
 }
 
-void		ft_putcoldname(char *d_name, char c)
+void		ft_putcoldname(t_dirent *lst)
 {
-	if (c == 'd')
-		ft_putcolendl(d_name, "CYAN");
-	else if (c == '-')
-		ft_putcolendl(d_name, "YELLOW");
-	else if (c == 'c')
-		ft_putcolendl(d_name, "RED");
-	else if (c == 'b')
-		ft_putcolendl(d_name, "MAGENTA");
-	else if (c == 'l')
-		ft_putcolendl(d_name, "BLUE");
-	else if (c == 'f')
-		ft_putcolendl(d_name, "CYAN");
+	if (lst->pad.c == 'd')
+		ft_putcolendl(lst->data->d_name, "CYAN");
+	else if (lst->pad.c == '-')
+		ft_putcolendl(lst->data->d_name, "YELLOW");
+	else if (lst->pad.c == 'c')
+		ft_putcolendl(lst->data->d_name, "RED");
+	else if (lst->pad.c == 'b')
+		ft_putcolendl(lst->data->d_name, "MAGENTA");
+	else if (lst->pad.c == 'f')
+		ft_putcolendl(lst->data->d_name, "CYAN");
+	else if (lst->pad.c == 'l')
+	{
+		ft_putcolendl(NULL, "BLUE");
+		ft_putstr(lst->data->d_name);
+		ft_putcolendl(NULL, "RESET");
+		if (lst->link[0] != '\0')
+		{
+			ft_putstr(" -> ");
+			ft_putendl(lst->link);
+		}
+		else
+			ft_putchar('\n');
+	}
 	else
-		ft_putcolendl(d_name, "");
+		ft_putcolendl(lst->data->d_name, "");
 }
 
 void		ft_printl(t_dirent *lst, int arg)
@@ -112,17 +123,17 @@ void		ft_printl(t_dirent *lst, int arg)
 			ft_putstr_nbr_str("total ", lst->pad.total, "\n");
 		while (lst)
 		{
-			ft_printperm(lst);
+			ft_printperm(lst, rabbit);
 			if (!(MIN_O & arg))
 				ft_putcstr(lst->group.gr_name, ' ', rabbit->pad.gid, 'L');
 			if (rabbit->pad.c == '-' || rabbit->pad.c == 'd'
-				|| rabbit->pad.c == 'l')
+					|| rabbit->pad.c == 'l')
 				ft_putcstr(ft_st_itoa(lst->stat.st_size), ' ',
-					rabbit->pad.size + 3, 'R');
+						rabbit->pad.size + 3, 'R');
 			else
 				ft_putmajmin(lst->stat);
 			ft_printtime(lst, arg);
-			ft_putcoldname(lst->data->d_name, lst->pad.c);
+			ft_putcoldname(lst);
 			lst = lst->next;
 		}
 	}
