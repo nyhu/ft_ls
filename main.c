@@ -6,7 +6,7 @@
 /*   By: tboos <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/05 20:52:38 by tboos             #+#    #+#             */
-/*   Updated: 2016/03/08 20:32:43 by tboos            ###   ########.fr       */
+/*   Updated: 2016/03/10 13:54:33 by tboos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,7 +94,7 @@ static int	ft_matcharg(char *str, int *arg)
 	return (1);
 }
 
-int			main(int  ac, char **av)
+int			main(int ac, char **av)
 {
 	int		arg;
 	int		i;
@@ -106,4 +106,5 @@ int			main(int  ac, char **av)
 			break ;
 	if (!(MIN_Y & arg) && (MAG_H & arg) && (MIN_L & arg))
 		arg -= MAG_H;
-	return (ft_ls(av, ac, arg, i));}
+	return (ft_ls(av, ac, arg, i));
+}

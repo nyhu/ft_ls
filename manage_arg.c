@@ -6,12 +6,12 @@
 /*   By: tboos <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/06 03:10:59 by tboos             #+#    #+#             */
-/*   Updated: 2016/03/08 17:58:07 by tboos            ###   ########.fr       */
+/*   Updated: 2016/03/10 14:10:21 by tboos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-# include "libft.h"
-# include "ft_ls.h"
+#include "libft.h"
+#include "ft_ls.h"
 
 void		ft_putmajmin(t_stat stat)
 {
@@ -87,6 +87,11 @@ void		ft_deldot(t_dirent **lst, int mag_a)
 
 void		ft_printperm(t_dirent *lst)
 {
+	ft_putchar(lst->pad.c);
+	ft_putcstr(ft_st_itoa(lst->stat.st_nlink), ' ',
+		rabbit->pad.nlink + 3, 'R');
+	ft_putchar(' ');
+	ft_putcstr(lst->passwd.pw_name, ' ', rabbit->pad.uid + 2, 'L');
 	(lst->stat.st_mode & S_IRUSR ? ft_putchar('r') : ft_putchar('-'));
 	(lst->stat.st_mode & S_IWUSR ? ft_putchar('w') : ft_putchar('-'));
 	(lst->stat.st_mode & S_IXUSR ? ft_putchar('x') : ft_putchar('-'));

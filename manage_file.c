@@ -6,12 +6,12 @@
 /*   By: tboos <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/07 19:36:45 by tboos             #+#    #+#             */
-/*   Updated: 2016/03/08 16:15:18 by tboos            ###   ########.fr       */
+/*   Updated: 2016/03/10 14:02:03 by tboos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-# include "libft.h"
-# include "ft_ls.h"
+#include "libft.h"
+#include "ft_ls.h"
 
 void			ft_normprint(t_dirent *lst)
 {
@@ -64,7 +64,7 @@ int				ft_manage_file(char *name, int arg)
 	lst = NULL;
 	if (!name || !(*name))
 		return (0);
-	ft_strcpy(tmp , name);
+	ft_strcpy(tmp, name);
 	i = ft_strlen(name);
 	while (i--)
 		if (tmp[i] == '/')

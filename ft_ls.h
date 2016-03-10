@@ -6,7 +6,7 @@
 /*   By: tboos <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/03 11:10:56 by tboos             #+#    #+#             */
-/*   Updated: 2016/03/08 20:33:40 by tboos            ###   ########.fr       */
+/*   Updated: 2016/03/10 14:13:30 by tboos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@
 # define MAG_C 0010000
 # define MAG_U 0020000
 # define MIN_Y 0040000
+# define CMPELEM (ft_cmpls(find->next, rabbit, arg))
 # define RABBIT_TIME_B rabbit->stat.st_birthtimespec.tv_sec
 # define TURTLE_TIME_B turtle->stat.st_birthtimespec.tv_sec
 # define RABBIT_TIME_C rabbit->stat.st_atimespec.tv_sec
@@ -79,10 +80,11 @@ typedef struct			s_dirent
 	struct s_dirent		*next;
 }						t_dirent;
 
-void			ft_catlst(t_dirent *begin, t_dirent *rabbit);
+void					ft_catlst(t_dirent *begin, t_dirent *rabbit);
 void					ft_normprint(t_dirent *lst);
 time_t					ft_returntime(t_dirent *lst, int arg);
-void					ft_runlist(t_dirent **lst, int arg, char *name, int *end);
+void					ft_runlist(t_dirent **lst, int arg, char *name,
+						int *end);
 int						ft_manage_file(char *name, int arg);
 char					ft_returntype(mode_t st_mode);
 void					ft_putcoldname(char *d_name, char c);

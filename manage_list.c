@@ -6,14 +6,14 @@
 /*   By: tboos <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/03 11:10:11 by tboos             #+#    #+#             */
-/*   Updated: 2016/03/08 19:26:09 by tboos            ###   ########.fr       */
+/*   Updated: 2016/03/10 14:05:07 by tboos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-# include "libft.h"
-# include "ft_ls.h"
+#include "libft.h"
+#include "ft_ls.h"
 
-long		ft_cmpls(t_dirent *turtle, t_dirent *rabbit, int arg)
+long			ft_cmpls(t_dirent *turtle, t_dirent *rabbit, int arg)
 {
 	if ((MIN_T & arg) && (MIN_C & arg))
 		return (RABBIT_TIME_A - TURTLE_TIME_A);
@@ -43,9 +43,9 @@ void			ft_list_insert(t_dirent **begin, t_dirent *rabbit, int arg)
 	else
 	{
 		find = *begin;
-		while (find->next && (MIN_R & arg) && !(ft_cmpls(find->next, rabbit, arg) < 0))
+		while (find->next && (MIN_R & arg) && !CMP_ELEM < 0)
 			find = find->next;
-		while (find->next && !(MIN_R & arg) && !(ft_cmpls(find->next, rabbit, arg) > 0))
+		while (find->next && !(MIN_R & arg) && !CMP_ELEM > 0)
 			find = find->next;
 		rabbit->next = find->next;
 		find->next = rabbit;
@@ -77,9 +77,11 @@ static t_dirent	*ft_create_direntelem(struct dirent *new, char *name, int arg)
 	tmp = ft_strjoin(name, "/");
 	the_name = ft_strjoin(tmp, new->d_name);
 	free(tmp);
-	if ((MAG_H & arg) && stat(the_name, &(next->stat)) < 0 && ft_freegiveone(next))
+	if ((MAG_H & arg) && stat(the_name, &(next->stat)) < 0
+		&& ft_freegiveone(next))
 		return (NULL);
-	if (!(MAG_H & arg) && lstat(the_name, &(next->stat)) < 0 && ft_freegiveone(next))
+	if (!(MAG_H & arg) && lstat(the_name, &(next->stat)) < 0
+		&& ft_freegiveone(next))
 		return (NULL);
 	free(the_name);
 	ft_memcpy(&next->passwd, getpwuid(next->stat.st_uid), sizeof(t_passwd));
@@ -89,7 +91,8 @@ static t_dirent	*ft_create_direntelem(struct dirent *new, char *name, int arg)
 	return (next);
 }
 
-int				ft_create_d_list(t_dirent **begin, DIR *dir, char *name, int arg)
+int				ft_create_d_list(t_dirent **begin, DIR *dir,
+				char *name, int arg)
 {
 	struct dirent	*new;
 	t_dirent		*rabbit;
@@ -98,7 +101,8 @@ int				ft_create_d_list(t_dirent **begin, DIR *dir, char *name, int arg)
 		return (0);
 	if (!(new = (struct dirent *)DIRENT_MEMDUP))
 		return (1);
-	if ((!begin || !(*begin = ft_create_direntelem(new, name, arg))) && FREE1(new))
+	if ((!begin || !(*begin = ft_create_direntelem(new, name, arg)))
+		&& FREE1(new))
 		return (1);
 	while ((new = readdir(dir)))
 	{

@@ -6,12 +6,12 @@
 /*   By: tboos <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/03 11:10:49 by tboos             #+#    #+#             */
-/*   Updated: 2016/03/08 16:05:42 by tboos            ###   ########.fr       */
+/*   Updated: 2016/03/10 14:12:51 by tboos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-# include "libft.h"
-# include "ft_ls.h"
+#include "libft.h"
+#include "ft_ls.h"
 
 static void		ft_print(t_dirent *lst, int arg)
 {
@@ -44,7 +44,7 @@ static void		ft_print(t_dirent *lst, int arg)
 
 static void		ft_recurlist(t_dirent *lst, int arg, char *name, int *end)
 {
-	char		*the_name;
+	char			*the_name;
 
 	while (lst)
 	{
@@ -62,14 +62,15 @@ static void		ft_recurlist(t_dirent *lst, int arg, char *name, int *end)
 				ft_lstdir(the_name, arg, NULL, end);
 			}
 			else
-				ft_putstr_str_str_fd("ft_ls: ", the_name, ": File name too long", 2);
+				ft_putstr_str_str_fd("ft_ls: ", the_name,
+					": File name too long", 2);
 			free(the_name);
 		}
 		lst = lst->next;
 	}
 }
 
-void		ft_runlist(t_dirent **lst, int arg, char *name, int *end)
+void			ft_runlist(t_dirent **lst, int arg, char *name, int *end)
 {
 	if (!(MIN_A & arg) && !(MAG_A & arg) && !(MIN_F & arg))
 		ft_deldot(lst, 0);
@@ -86,8 +87,8 @@ void		ft_runlist(t_dirent **lst, int arg, char *name, int *end)
 
 void			ft_lstdir(char *name, int arg, t_dirent *lst, int *end)
 {
-	DIR			*dir;
-	char		*tmp;
+	DIR				*dir;
+	char			*tmp;
 
 	dir = NULL;
 	if (!(dir = opendir(name)) && !ft_manage_file(name, arg))
@@ -114,7 +115,7 @@ void			ft_lstdir(char *name, int arg, t_dirent *lst, int *end)
 
 int				ft_ls(char **av, int ac, int arg, int i)
 {
-	int			end;
+	int				end;
 
 	end = 0;
 	if (i >= ac)
