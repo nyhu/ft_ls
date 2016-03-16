@@ -6,7 +6,7 @@
 /*   By: tboos <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/03 11:10:49 by tboos             #+#    #+#             */
-/*   Updated: 2016/03/10 19:32:25 by tboos            ###   ########.fr       */
+/*   Updated: 2016/03/10 20:31:25 by tboos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,14 +120,20 @@ int				ft_ls(char **av, int ac, int arg, int i)
 	else
 		while (i < ac)
 		{
-			if (ft_strlen(av[i]) < 256)
-				ft_lstdir(av[i], arg, NULL, &end);
-			else
+			if ((i + 1) < ac || MULTI & arg)
 			{
-				ft_putstr_str_str_fd("ft_ls: ", av[i],
-						": File name too long", 2);
+				arg += MULTI;
+				ft_putstr(av[ac - 1]);
+				ft_putendl(":");
 			}
-			i++;
+			if (ft_strlen(av[ac - 1]) < 256)
+				ft_lstdir(av[ac - 1], arg, NULL, &end);
+			else
+				ft_putstr_str_str_fd("ft_ls: ", av[i],
+					": File name too long", 2);
+			ac--;
+			if (MULTI & arg && i < ac)
+				ft_putchar('\n');
 		}
 	return (end);
 }

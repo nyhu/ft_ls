@@ -6,7 +6,7 @@
 /*   By: tboos <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/03 11:10:56 by tboos             #+#    #+#             */
-/*   Updated: 2016/03/10 19:31:47 by tboos            ###   ########.fr       */
+/*   Updated: 2016/03/16 02:43:21 by tboos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,8 @@
 # define MAG_C 0010000
 # define MAG_U 0020000
 # define MIN_Y 0040000
+# define MULTI 0100000
+# define TOO_LONG
 # define CMP_ELEM (ft_cmpls(find->next, rabbit, arg))
 # define RABBIT_TIME_B rabbit->stat.st_birthtimespec.tv_sec
 # define TURTLE_TIME_B turtle->stat.st_birthtimespec.tv_sec
@@ -82,6 +84,16 @@ typedef struct			s_dirent
 	struct s_dirent		*next;
 }						t_dirent;
 
+/*
+** MAIN.c fill ARG with ft_ls arguments 
+** it stops if one of them doesn't match
+** In this case usage is shaun after error!
+** -- stop arg parsing
+*/
+
+/*
+** FT_LS.C dispath files and repertory in subfonctions
+*/
 void					ft_catlst(t_dirent *begin, t_dirent *rabbit);
 void					ft_normprint(t_dirent *lst);
 time_t					ft_returntime(t_dirent *lst, int arg);
