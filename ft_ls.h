@@ -6,7 +6,7 @@
 /*   By: tboos <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/03 11:10:56 by tboos             #+#    #+#             */
-/*   Updated: 2016/03/16 07:57:26 by tboos            ###   ########.fr       */
+/*   Updated: 2016/03/16 08:48:09 by tboos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,7 @@
 # define MAG_U 0020000
 # define MIN_Y 0040000
 # define MULTI 0100000
+# define FIRST 0200000
 # define TOO_LONG
 # define CMP_ELEM (ft_cmpls(find->next, rabbit, arg))
 # define RABBIT_TIME_B rabbit->stat.st_birthtimespec.tv_sec

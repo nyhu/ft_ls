@@ -6,7 +6,7 @@
 /*   By: tboos <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/16 03:17:22 by tboos             #+#    #+#             */
-/*   Updated: 2016/03/16 07:41:39 by tboos            ###   ########.fr       */
+/*   Updated: 2016/03/16 08:49:16 by tboos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,6 +90,19 @@ static int	ft_dispatch(t_dirent **files, t_dirent **dirs, char *name, int arg)
 	}
 }
 
+static void	ft_print_dir(t_dirent *dirs, int arg, int *end)
+{
+	while (dirs)
+	{
+		if (arg & FIRST && (arg -= FIRST) && arg & MULTI)
+			ft_putstr_str_str_fd(NULL, dirs->data->d_name, ":\n", 1);
+		else if (MULTI & arg)
+			ft_putstr_str_str_fd("\n", dirs->data->d_name, ":\n", 1);
+		ft_lstdir(dirs->data->d_name, arg, NULL, end);
+		dirs = dirs->next;
+	}
+}
+
 int			ft_lstspe(char **av, int ac, int arg, int i)
 {
 	int			end;
@@ -99,21 +112,14 @@ int			ft_lstspe(char **av, int ac, int arg, int i)
 	files = NULL;
 	dirs = NULL;
 	end = 0;
-	while (i < ac)
-	{
-		end |= ft_dispatch(&files, &dirs, av[i], arg);
-		i++;
-	}
-	ft_print(files, arg);
+	while (i++ < ac)
+		end |= ft_dispatch(&files, &dirs, av[i - 1], arg);
+	if (!files && arg & MULTI)
+		arg |= FIRST;
+	if (files)
+		ft_print(files, arg);
 	ft_free_dirent_lst(files);
-	files = dirs;
-	while (dirs)
-	{
-		if (MULTI & arg)
-			ft_putstr_str_str_fd("\n", dirs->data->d_name, ":\n", 1);
-		ft_lstdir(dirs->data->d_name, arg, NULL, &end);
-		dirs = dirs->next;
-	}
-	ft_free_dirent_lst(files);
+	ft_print_dir(dirs, arg, &end);;
+	ft_free_dirent_lst(dirs);
 	return (end);
 }
