@@ -6,7 +6,7 @@
 /*   By: tboos <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/03 11:10:56 by tboos             #+#    #+#             */
-/*   Updated: 2016/03/16 08:48:09 by tboos            ###   ########.fr       */
+/*   Updated: 2016/03/16 14:58:57 by tboos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ typedef struct			s_lpadding
 	int					nlink;
 	int					uid;
 	int					gid;
-	int					size;
+	off_t				size;
 }						t_lpadding;
 typedef struct			s_dirent
 {
@@ -120,5 +120,6 @@ int						ft_ls(char **av, int ac, int arg, int i);
 void					ft_list_insert(t_dirent **begin, t_dirent *rabbit,
 						int arg);
 int						ft_lstspe(char **av, int ac, int arg, int i);
+char					*ft_st_offttoa(off_t n);
 
 #endif

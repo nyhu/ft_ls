@@ -6,7 +6,7 @@
 /*   By: tboos <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/03 11:10:42 by tboos             #+#    #+#             */
-/*   Updated: 2016/03/16 09:32:34 by tboos            ###   ########.fr       */
+/*   Updated: 2016/03/16 14:58:53 by tboos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ static void	ft_findpad(t_dirent *lst)
 			lst->pad.uid = ft_strlen(rabbit->passwd.pw_name);
 		if (lst->pad.uid < (int)ft_strlen(rabbit->group.gr_name))
 			lst->pad.gid = ft_strlen(rabbit->group.gr_name);
-		if (tmp.size < (int)rabbit->stat.st_size)
+		if (tmp.size < rabbit->stat.st_size)
 			tmp.size = rabbit->stat.st_size;
 		rabbit = rabbit->next;
 	}
@@ -124,11 +124,13 @@ void		ft_printl(t_dirent *lst, int arg)
 		while (lst)
 		{
 			ft_printperm(lst, rabbit);
-			if (!(MIN_O & arg))
+			if (!(MIN_O & arg) && *(lst->group.gr_name))
 				ft_putcstr(lst->group.gr_name, ' ', rabbit->pad.gid, 'L');
-			if (rabbit->pad.c == '-' || rabbit->pad.c == 'd'
-					|| rabbit->pad.c == 'l')
-				ft_putcstr(ft_st_itoa(lst->stat.st_size), ' ',
+			else if (!(MIN_O & arg))
+				ft_putcstr(ft_st_itoa(lst->stat.st_uid), ' ', rabbit->pad.gid, 'L');
+			if (lst->pad.c == '-' || lst->pad.c == 'd'
+					|| lst->pad.c == 'l')
+				ft_putcstr(ft_st_offttoa(lst->stat.st_size), ' ',
 						rabbit->pad.size + 3, 'R');
 			else
 				ft_putmajmin(lst->stat);

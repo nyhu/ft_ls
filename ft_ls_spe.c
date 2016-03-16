@@ -6,7 +6,7 @@
 /*   By: tboos <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/16 03:17:22 by tboos             #+#    #+#             */
-/*   Updated: 2016/03/16 08:49:16 by tboos            ###   ########.fr       */
+/*   Updated: 2016/03/16 12:09:34 by tboos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,15 +28,15 @@ static t_dirent	*ft_create_felem(struct dirent *new, char *name, int arg)
 
 	if (!(tmp = ft_strjoin("ls: ", name)))
 		return (NULL);
-	if (!(next = (t_dirent *)ft_memalloc(sizeof(t_dirent))))
+	if (!(next = (t_dirent *)ft_memalloc(sizeof(t_dirent)))
+		&& ft_freegiveone(tmp))
 		return (NULL);
-	if (!(next->data = (struct dirent *)DIRENT_MEMDUP))
+	if (!(next->data = (struct dirent *)DIRENT_MEMDUP)
+		&& ft_freegiveone(tmp) && ft_freegiveone(next))
 		return (NULL);
-	if ((MAG_H & arg) && stat(name, &(next->stat)) < 0
-		&& ft_freegiveone(next))
+	if ((MAG_H & arg) && stat(name, &(next->stat)) < 0)
 		return (ft_createerror(tmp, next));
-	if (!(MAG_H & arg) && lstat(name, &(next->stat)) < 0
-		&& ft_freegiveone(next))
+	if (!(MAG_H & arg) && lstat(name, &(next->stat)) < 0)
 		return (ft_createerror(tmp, next));
 	ft_memcpy(&next->passwd, getpwuid(next->stat.st_uid), sizeof(t_passwd));
 	ft_memcpy(&next->group, getgrgid(next->stat.st_gid), sizeof(t_group));
@@ -45,6 +45,7 @@ static t_dirent	*ft_create_felem(struct dirent *new, char *name, int arg)
 		&& readlink(name, next->link, 255) <= 0)
 		perror(next->data->d_name);
 	free(new);
+	free(tmp);
 	return (next);
 }
 
@@ -69,8 +70,10 @@ static int	ft_manage_fil_dir(char *name, t_dirent **files, int arg)
 
 static int	ft_dispatch(t_dirent **files, t_dirent **dirs, char *name, int arg)
 {
-	DIR			*dire;
+	t_stat		tmp;
+	char		*error;
 
+	bzero(&tmp, sizeof(t_stat));
 	if (!(*name))
 	{
 		perror("ls: fts_open: No such file or directory\n");
@@ -81,13 +84,16 @@ static int	ft_dispatch(t_dirent **files, t_dirent **dirs, char *name, int arg)
 		ft_putstr_str_str_fd("ls: ", name, ": File name too long\n", 2);
 		return (1);
 	}
-	else if (!(dire = opendir(name)))
-		return (ft_manage_fil_dir(name, files, arg));
-	else
+	else if (-1 == lstat(name, &tmp))
 	{
-		closedir(dire);
-		return (ft_manage_fil_dir(name, dirs, arg));
+		error = ft_strjoin("ls: ", name);
+		perror(error);
+		free(error);
+		return (1);
 	}
+	else if (S_ISDIR(tmp.st_mode))
+		return (ft_manage_fil_dir(name, dirs, arg));
+	return (ft_manage_fil_dir(name, files, arg));
 }
 
 static void	ft_print_dir(t_dirent *dirs, int arg, int *end)
