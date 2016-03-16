@@ -6,7 +6,7 @@
 /*   By: tboos <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/03 11:10:56 by tboos             #+#    #+#             */
-/*   Updated: 2016/03/16 14:58:57 by tboos            ###   ########.fr       */
+/*   Updated: 2016/03/16 16:35:00 by tboos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@
 # include <time.h>
 # include <stdio.h>
 # include <sys/stat.h>
+# include <uuid/uuid.h>
 # include <sys/types.h>
 # include <sys/ioctl.h>
 # include <sys/time.h>
@@ -86,16 +87,7 @@ typedef struct			s_dirent
 	struct s_dirent		*next;
 }						t_dirent;
 
-/*
-** MAIN.c fill ARG with ft_ls arguments 
-** it stops if one of them doesn't match
-** In this case usage is shaun after error!
-** -- stop arg parsing
-*/
-
-/*
-** FT_LS.C dispath files and repertory in subfonctions
-*/
+void					ft_print_dir(t_dirent *dirs, int arg, int *end);
 void					ft_print(t_dirent *lst, int arg);
 void					ft_catlst(t_dirent *begin, t_dirent *rabbit);
 void					ft_normprint(t_dirent *lst);

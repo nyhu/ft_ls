@@ -6,7 +6,7 @@
 /*   By: tboos <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/16 03:17:22 by tboos             #+#    #+#             */
-/*   Updated: 2016/03/16 15:32:16 by tboos            ###   ########.fr       */
+/*   Updated: 2016/03/16 16:03:21 by tboos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ static t_dirent	*ft_create_felem(struct dirent *new, char *name, int arg)
 	return (next);
 }
 
-static int	ft_manage_fil_dir(char *name, t_dirent **files, int arg)
+static int		ft_manage_fil_dir(char *name, t_dirent **files, int arg)
 {
 	t_dirent	*rabbit;
 	t_direntori	*new;
@@ -68,7 +68,8 @@ static int	ft_manage_fil_dir(char *name, t_dirent **files, int arg)
 	return (0);
 }
 
-static int	ft_dispatch(t_dirent **files, t_dirent **dirs, char *name, int arg)
+static int		ft_dispatch(t_dirent **files, t_dirent **dirs,
+				char *name, int arg)
 {
 	t_stat		tmp;
 	char		*error;
@@ -96,20 +97,7 @@ static int	ft_dispatch(t_dirent **files, t_dirent **dirs, char *name, int arg)
 	return (ft_manage_fil_dir(name, files, arg));
 }
 
-static void	ft_print_dir(t_dirent *dirs, int arg, int *end)
-{
-	while (dirs)
-	{
-		if (arg & FIRST && (arg -= FIRST) && arg & MULTI)
-			ft_putstr_str_str_fd(NULL, dirs->data->d_name, ":\n", 1);
-		else if (MULTI & arg)
-			ft_putstr_str_str_fd("\n", dirs->data->d_name, ":\n", 1);
-		ft_lstdir(dirs->data->d_name, arg, NULL, end);
-		dirs = dirs->next;
-	}
-}
-
-int			ft_lstspe(char **av, int ac, int arg, int i)
+int				ft_lstspe(char **av, int ac, int arg, int i)
 {
 	int			end;
 	t_dirent	*files;
@@ -125,7 +113,7 @@ int			ft_lstspe(char **av, int ac, int arg, int i)
 	if (files)
 		ft_print(files, arg);
 	ft_free_dirent_lst(files);
-	ft_print_dir(dirs, arg, &end);;
+	ft_print_dir(dirs, arg, &end);
 	ft_free_dirent_lst(dirs);
 	return (end);
 }

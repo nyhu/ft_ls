@@ -6,7 +6,7 @@
 /*   By: tboos <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/03 11:10:42 by tboos             #+#    #+#             */
-/*   Updated: 2016/03/16 15:32:12 by tboos            ###   ########.fr       */
+/*   Updated: 2016/03/16 16:34:58 by tboos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,14 +123,11 @@ void		ft_printl(t_dirent *lst, int arg)
 		while (lst)
 		{
 			ft_printperm(lst, rabbit);
-			if (!(MIN_O & arg) && *(lst->group.gr_name))
+			if (!(MIN_O & arg) && lst->group.gr_name)
 				ft_putcstr(lst->group.gr_name, ' ', rabbit->pad.gid, 'L');
-			else if (!(MIN_O & arg))
-				ft_putcstr(ft_st_itoa(lst->stat.st_uid), ' ', rabbit->pad.gid, 'L');
-			if (lst->pad.c == '-' || lst->pad.c == 'd'
-					|| lst->pad.c == 'l')
+			if (lst->pad.c == '-' || lst->pad.c == 'd' || lst->pad.c == 'l')
 				ft_putcstr(ft_st_offttoa(lst->stat.st_size), ' ',
-						rabbit->pad.size + 3, 'R');
+					rabbit->pad.size + 3, 'R');
 			else
 				ft_putmajmin(lst->stat);
 			ft_printtime(lst, arg);
