@@ -6,7 +6,7 @@
 /*   By: tboos <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/06 03:10:59 by tboos             #+#    #+#             */
-/*   Updated: 2016/03/10 20:12:03 by tboos            ###   ########.fr       */
+/*   Updated: 2016/03/16 09:44:57 by tboos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,13 +90,22 @@ void		ft_printperm(t_dirent *lst, t_dirent *rabbit)
 	ft_putchar(lst->pad.c);
 	(lst->stat.st_mode & S_IRUSR ? ft_putchar('r') : ft_putchar('-'));
 	(lst->stat.st_mode & S_IWUSR ? ft_putchar('w') : ft_putchar('-'));
-	(lst->stat.st_mode & S_IXUSR ? ft_putchar('x') : ft_putchar('-'));
+	if (!(lst->stat.st_mode & S_ISUID))
+		(lst->stat.st_mode & S_IXUSR ? ft_putchar('x') : ft_putchar('-'));
+	else
+		(lst->stat.st_mode & S_IXUSR ? ft_putchar('s') : ft_putchar('S'));
 	(lst->stat.st_mode & S_IRGRP ? ft_putchar('r') : ft_putchar('-'));
 	(lst->stat.st_mode & S_IWGRP ? ft_putchar('w') : ft_putchar('-'));
-	(lst->stat.st_mode & S_IXGRP ? ft_putchar('x') : ft_putchar('-'));
+	if (!(lst->stat.st_mode & S_ISGID))
+		(lst->stat.st_mode & S_IXGRP ? ft_putchar('x') : ft_putchar('-'));
+	else
+		(lst->stat.st_mode & S_IXGRP ? ft_putchar('s') : ft_putchar('S'));
 	(lst->stat.st_mode & S_IROTH ? ft_putchar('r') : ft_putchar('-'));
 	(lst->stat.st_mode & S_IWOTH ? ft_putchar('w') : ft_putchar('-'));
-	(lst->stat.st_mode & S_IXOTH ? ft_putchar('x') : ft_putchar('-'));
+	if (!(lst->stat.st_mode & S_ISVTX))
+		(lst->stat.st_mode & S_IXOTH ? ft_putchar('x') : ft_putchar('-'));
+	else
+		(lst->stat.st_mode & S_IXOTH ? ft_putchar('t') : ft_putchar('T'));
 	ft_putcstr(ft_st_itoa(lst->stat.st_nlink), ' ',
 		rabbit->pad.nlink + 3, 'R');
 	ft_putchar(' ');
