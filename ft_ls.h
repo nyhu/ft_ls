@@ -6,7 +6,7 @@
 /*   By: tboos <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/03 11:10:56 by tboos             #+#    #+#             */
-/*   Updated: 2016/03/16 02:43:21 by tboos            ###   ########.fr       */
+/*   Updated: 2016/03/16 07:57:26 by tboos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@
 # include <sys/ioctl.h>
 # include <sys/time.h>
 # include <sys/xattr.h>
+# include "libft.h"
 
 # define MIN_A 0000001
 # define MAG_A 0000002
@@ -94,12 +95,12 @@ typedef struct			s_dirent
 /*
 ** FT_LS.C dispath files and repertory in subfonctions
 */
+void					ft_print(t_dirent *lst, int arg);
 void					ft_catlst(t_dirent *begin, t_dirent *rabbit);
 void					ft_normprint(t_dirent *lst);
 time_t					ft_returntime(t_dirent *lst, int arg);
 void					ft_runlist(t_dirent **lst, int arg, char *name,
 						int *end);
-int						ft_manage_file(char *name, int arg, int *end);
 char					ft_returntype(mode_t st_mode);
 void					ft_putcoldname(t_dirent *lst);
 void					ft_putmajmin(t_stat stat);
@@ -117,5 +118,6 @@ void					ft_lstdir(char *name, int arg, t_dirent *lst, int *end);
 int						ft_ls(char **av, int ac, int arg, int i);
 void					ft_list_insert(t_dirent **begin, t_dirent *rabbit,
 						int arg);
+int						ft_lstspe(char **av, int ac, int arg, int i);
 
 #endif

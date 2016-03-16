@@ -6,14 +6,14 @@
 /*   By: tboos <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/03 11:10:49 by tboos             #+#    #+#             */
-/*   Updated: 2016/03/10 20:31:25 by tboos            ###   ########.fr       */
+/*   Updated: 2016/03/16 07:45:17 by tboos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 #include "ft_ls.h"
 
-static void		ft_print(t_dirent *lst, int arg)
+void			ft_print(t_dirent *lst, int arg)
 {
 	t_dirent		*rabbit;
 	struct winsize	w;
@@ -58,7 +58,7 @@ static void		ft_recurlist(t_dirent *lst, int arg, char *name, int *end)
 			}
 			else if (ft_strlen(the_name) < 256)
 			{
-				ft_putstr_str_str_fd("\n", the_name, ":\n", 2);
+				ft_putstr_str_str_fd("\n", the_name, ":\n", 1);
 				ft_lstdir(the_name, arg, NULL, end);
 			}
 			else
@@ -101,7 +101,7 @@ void			ft_lstdir(char *name, int arg, t_dirent *lst, int *end)
 		}
 		closedir(dir);
 	}
-	else if (!ft_manage_file(name, arg, end))
+	else
 	{
 		tmp = ft_strjoin("ft_ls: ", name);
 		perror(tmp);
@@ -115,25 +115,11 @@ int				ft_ls(char **av, int ac, int arg, int i)
 	int				end;
 
 	end = 0;
+	if ((i + 1) < ac && !(MULTI & arg))
+		arg += MULTI;
 	if (i >= ac)
 		ft_lstdir(".", arg, NULL, &end);
 	else
-		while (i < ac)
-		{
-			if ((i + 1) < ac || MULTI & arg)
-			{
-				arg += MULTI;
-				ft_putstr(av[ac - 1]);
-				ft_putendl(":");
-			}
-			if (ft_strlen(av[ac - 1]) < 256)
-				ft_lstdir(av[ac - 1], arg, NULL, &end);
-			else
-				ft_putstr_str_str_fd("ft_ls: ", av[i],
-					": File name too long", 2);
-			ac--;
-			if (MULTI & arg && i < ac)
-				ft_putchar('\n');
-		}
+		end |= ft_lstspe(av, ac, arg, i);
 	return (end);
 }

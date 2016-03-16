@@ -3,3 +3,4 @@
 *.swp
 tmp*
 ft_ls
+TEST/*

@@ -6,7 +6,7 @@
 /*   By: tboos <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/03 11:10:11 by tboos             #+#    #+#             */
-/*   Updated: 2016/03/10 19:33:57 by tboos            ###   ########.fr       */
+/*   Updated: 2016/03/16 07:45:11 by tboos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,7 +104,7 @@ int				ft_create_d_list(t_dirent **begin, DIR *dir,
 		return (0);
 	if (!(new = (struct dirent *)DIRENT_MEMDUP))
 		return (1);
-	if ((!begin || !(*begin = ft_create_direntelem(new, name, arg)))
+	if (!(*begin) && !(*begin = ft_create_direntelem(new, name, arg))
 		&& FREE1(new))
 		return (1);
 	while ((new = readdir(dir)))
