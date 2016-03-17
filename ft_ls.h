@@ -6,7 +6,7 @@
 /*   By: tboos <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/03 11:10:56 by tboos             #+#    #+#             */
-/*   Updated: 2016/03/16 16:35:00 by tboos            ###   ########.fr       */
+/*   Updated: 2016/03/17 10:47:30 by tboos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@
 # include <sys/ioctl.h>
 # include <sys/time.h>
 # include <sys/xattr.h>
+# include <sys/acl.h>
 # include "libft.h"
 
 # define MIN_A 0000001
@@ -80,6 +81,7 @@ typedef struct			s_dirent
 {
 	t_direntori			*data;
 	char				link[256];
+	char				acl;
 	t_stat				stat;
 	t_lpadding			pad;
 	t_passwd			passwd;
@@ -87,6 +89,7 @@ typedef struct			s_dirent
 	struct s_dirent		*next;
 }						t_dirent;
 
+char					ft_returnacl(char *name);
 void					ft_print_dir(t_dirent *dirs, int arg, int *end);
 void					ft_print(t_dirent *lst, int arg);
 void					ft_catlst(t_dirent *begin, t_dirent *rabbit);

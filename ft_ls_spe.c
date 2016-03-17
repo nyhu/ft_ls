@@ -6,7 +6,7 @@
 /*   By: tboos <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/16 03:17:22 by tboos             #+#    #+#             */
-/*   Updated: 2016/03/16 16:03:21 by tboos            ###   ########.fr       */
+/*   Updated: 2016/03/17 10:08:55 by tboos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,7 @@ static int		ft_dispatch(t_dirent **files, t_dirent **dirs,
 	bzero(&tmp, sizeof(t_stat));
 	if (!(*name))
 	{
-		perror("ls: fts_open: No such file or directory\n");
+		ft_putstr_fd("ls: fts_open: No such file or directory\n", 2);
 		return (1);
 	}
 	else if (ft_strlen(name) > 255)

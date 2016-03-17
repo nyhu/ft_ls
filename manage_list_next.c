@@ -6,7 +6,7 @@
 /*   By: tboos <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/03 11:10:42 by tboos             #+#    #+#             */
-/*   Updated: 2016/03/16 16:34:58 by tboos            ###   ########.fr       */
+/*   Updated: 2016/03/17 10:56:39 by tboos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ static void	ft_findpad(t_dirent *lst)
 			tmp.nlink = rabbit->stat.st_nlink;
 		if (lst->pad.uid < (int)ft_strlen(rabbit->passwd.pw_name))
 			lst->pad.uid = ft_strlen(rabbit->passwd.pw_name);
-		if (lst->pad.uid < (int)ft_strlen(rabbit->group.gr_name))
+		if (lst->pad.gid < (int)ft_strlen(rabbit->group.gr_name))
 			lst->pad.gid = ft_strlen(rabbit->group.gr_name);
 		if (tmp.size < rabbit->stat.st_size)
 			tmp.size = rabbit->stat.st_size;

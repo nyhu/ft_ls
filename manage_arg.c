@@ -6,7 +6,7 @@
 /*   By: tboos <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/06 03:10:59 by tboos             #+#    #+#             */
-/*   Updated: 2016/03/16 16:12:41 by tboos            ###   ########.fr       */
+/*   Updated: 2016/03/17 10:53:22 by tboos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,8 +106,9 @@ void		ft_printperm(t_dirent *lst, t_dirent *rabbit)
 		(lst->stat.st_mode & S_IXOTH ? ft_putchar('x') : ft_putchar('-'));
 	else
 		(lst->stat.st_mode & S_IXOTH ? ft_putchar('t') : ft_putchar('T'));
+	ft_putchar(lst->acl);
 	ft_putcstr(ft_st_itoa(lst->stat.st_nlink), ' ',
-		rabbit->pad.nlink + 3, 'R');
+		rabbit->pad.nlink + 2, 'R');
 	ft_putchar(' ');
 	ft_putcstr(lst->passwd.pw_name, ' ', rabbit->pad.uid + 2, 'L');
 }

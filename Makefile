@@ -6,7 +6,7 @@
 #    By: tboos <marvin@42.fr>                       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/03/07 15:35:19 by tboos             #+#    #+#              #
-#    Updated: 2016/03/16 07:25:47 by tboos            ###   ########.fr        #
+#    Updated: 2016/03/17 10:32:55 by tboos            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,7 +15,7 @@ DNAME = d_ft_ls
 FLAGS = -Wall -Wextra -Werror
 DFLAGS = -Wall -Wextra -Weverything
 SRC = main.c manage_list.c manage_list_next.c ft_ls.c manage_arg.c \
-	  manage_file.c ft_ls_spe.c
+	  manage_file.c ft_ls_spe.c attr_acl.c
 OBJ = $(SRC:.c=.o)
 
 all: lib $(NAME)
