@@ -6,7 +6,7 @@
 /*   By: tboos <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/03 11:10:11 by tboos             #+#    #+#             */
-/*   Updated: 2016/03/17 10:56:41 by tboos            ###   ########.fr       */
+/*   Updated: 2016/03/17 11:37:15 by tboos            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,11 +77,9 @@ static t_dirent	*ft_create_direntelem(struct dirent *new, char *name, int arg)
 	tmp = ft_strjoin(name, "/");
 	the_name = ft_strjoin(tmp, new->d_name);
 	free(tmp);
-	if ((MAG_H & arg) && (stat(the_name, &(next->stat)) < 0)
-		&& ft_freegiveone(next))
-		return (NULL);
-	if (!(MAG_H & arg) && (lstat(the_name, &(next->stat)) < 0)
-		&& ft_freegiveone(next))
+	if ((((MAG_H & arg) && (stat(the_name, &(next->stat)) < 0))
+		|| (!(MAG_H & arg) && (lstat(the_name, &(next->stat)) < 0)))
+		&& ft_freegiveone(next) && ft_freegiveone(the_name))
 		return (NULL);
 	ft_memcpy(&next->passwd, getpwuid(next->stat.st_uid), sizeof(t_passwd));
 	ft_memcpy(&next->group, getgrgid(next->stat.st_gid), sizeof(t_group));
